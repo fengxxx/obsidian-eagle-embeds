@@ -57,7 +57,7 @@ export class EagleEmbed implements EmbedSource {
       this.GetRootPath();
       return;
     }
-    console.log(data);
+    // console.log(data);
      this.imgName=data["data"]["name"];
      this.imgExt=data["data"]["ext"];
      this.imgSrc="";
@@ -83,23 +83,24 @@ export class EagleEmbed implements EmbedSource {
       // var u=new fileUrl(imgSrc);
       if  (this.isImg){
         this.ele= document.createElement("img");
-        this.imgSrc="app://local/"+this.rootPath+"\\images\\"+idn+".info\\"+this.imgName+this.extstr;
+        this.imgSrc="app://local/"+this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;
 
         this.imgSrc= this.imgSrc
-        .replace("[", "%5B")
-        .replace("]", "%5D")
-        .replace("#", "23%")
-        .replace("$", "24%")
-        .replace("(", "28%")
-        .replace(")", "29%")
-        .replace("@", "40%")
-        .replace("{", "%7B")
-        .replace("}", "%7D")
-        .replace("&","%26")
-        .replace("=","%3D")
-        .replace(" ", "%20")
-        .replace("（", "%EF%BC%88")
-        .replace("）", "%EF%BC%89");
+        .replace("\\", "/");
+        // .replace("[", "%5B")
+        // .replace("]", "%5D")
+        // .replace("#", "23%")
+        // .replace("$", "24%")
+        // .replace("(", "28%")
+        // .replace(")", "29%")
+        // .replace("@", "40%")
+        // .replace("{", "%7B")
+        // .replace("}", "%7D")
+        // .replace("&","%26")
+        // .replace("=","%3D")
+        // .replace(" ", "%20")
+        // .replace("（", "%EF%BC%88")
+        // .replace("）", "%EF%BC%89");
         console.log(this.imgSrc);
         if(this.imgName)
         this.ele.setAttribute("src",this.imgSrc);
@@ -116,20 +117,21 @@ export class EagleEmbed implements EmbedSource {
       this.imgSrc="app://local/"+this.rootPath+"\\images\\"+idn+".info\\"+this.imgName+this.extstr;
 
       this.imgSrc= this.imgSrc
-      .replace("[", "%5B")
-      .replace("]", "%5D")
-      .replace("#", "23%")
-      .replace("$", "24%")
-      .replace("(", "28%")
-      .replace(")", "29%")
-      .replace("@", "40%")
-      .replace("{", "%7B")
-      .replace("}", "%7D")
-      .replace("&","%26")
-      .replace("=","%3D")
-      .replace(" ", "%20")
-      .replace("（", "%EF%BC%88")
-      .replace("）", "%EF%BC%89");
+      .replace("\\", "/");
+      // .replace("[", "%5B")
+      // .replace("]", "%5D")
+      // .replace("#", "23%")
+      // .replace("$", "24%")
+      // .replace("(", "28%")
+      // .replace(")", "29%")
+      // .replace("@", "40%")
+      // .replace("{", "%7B")
+      // .replace("}", "%7D")
+      // .replace("&","%26")
+      // .replace("=","%3D")
+      // .replace(" ", "%20")
+      // .replace("（", "%EF%BC%88")
+      // .replace("）", "%EF%BC%89");
       console.log(this.imgSrc);
 
 
