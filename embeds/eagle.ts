@@ -1,4 +1,5 @@
 import { EmbedSource, EnableEmbedKey } from "./";
+const fs = require("fs");
 // import { LiteYTEmbed } from "./lite-yt-embed";
 
 // import fileUrl from 'file-url';
@@ -81,12 +82,32 @@ export class EagleEmbed implements EmbedSource {
 
       // var   imgSrc="app://local/"+rootPath+"/images/"+idn+".info/"+imgName+extstr;
       // var u=new fileUrl(imgSrc);
-      if  (this.isImg){
-        this.ele= document.createElement("img");
-        this.imgSrc="app://local/"+this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;
+      this.ele= document.createElement("div");
+      var ul=document.createElement("ul");
+      var l1=document.createElement("li");
+      var l2=document.createElement("li");
+      // l1.setText(this.imgExt);
+      l2.setText(this.imgExt);
+      ul.appendChild(l1);
+      ul.appendChild(l2);
+      
+      l1.setAttribute("style", "display: inline-block; height: 36px;width: 46px;background-image: url(https://cn.eagle.cool/images/logo.png); display: inline-block;");
+      l2.setAttribute("style", " text-align: center;   border-radius: 5px;  height: 25px;width: 46px; display: inline-block;background: #8b00009c;");
+      ul.setAttribute("style", "height: 31px;    display: flex; font-size: 15px;    margin: 0; padding: 0; position: absolute;");
+      this.ele.appendChild(ul);
 
-        this.imgSrc= this.imgSrc
-        .replace("\\", "/");
+    if  (this.isImg){
+        var bg= document.createElement("img");
+        bg.setAttribute("width","100%");
+
+        // this.ele= document.createElement("img");
+        var filePath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;
+
+
+
+        this.imgSrc="app://local/"+filePath;
+
+        this.imgSrc= this.imgSrc.replace("\\", "/");
         // .replace("[", "%5B")
         // .replace("]", "%5D")
         // .replace("#", "23%")
@@ -100,44 +121,46 @@ export class EagleEmbed implements EmbedSource {
         // .replace("=","%3D")
         // .replace(" ", "%20")
         // .replace("（", "%EF%BC%88")
-        // .replace("）", "%EF%BC%89");
-        console.log(this.imgSrc);
-        if(this.imgName)
-        this.ele.setAttribute("src",this.imgSrc);
+        // .replace("）", "%EF%BC%89")
+
+        if(!fs.existsSync(filePath)){
+          this.imgSrc="https://cdn.artstation.com/static_media/placeholders/user/cover/default.jpg"
+        }
+        console.log(fs.existsSync(filePath));
+        console.log(filePath);
+
+        // if(this.imgName)
+        // this.ele.setAttribute("src",this.imgSrc);
+        bg.setAttribute("src",this.imgSrc);
+        this.ele.appendChild(bg);
 
     }else{
-      this.ele= document.createElement("div");
-      this.ele.className="internal-embed media-embed is-loaded";
-      this.ele.setAttribute("src","eagle:/item/"+this.imgName);
+      var el= document.createElement("div");
+      el.className="internal-embed media-embed is-loaded";
+      el.setAttribute("src","eagle:/item/"+this.imgName);
 
       var elev=document.createElement("video");
       elev.setAttribute("controls","");
 
 
-      this.imgSrc="app://local/"+this.rootPath+"\\images\\"+idn+".info\\"+this.imgName+this.extstr;
+      var filePath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;
+      this.imgSrc="app://local/"+filePath;
 
-      this.imgSrc= this.imgSrc
-      .replace("\\", "/");
-      // .replace("[", "%5B")
-      // .replace("]", "%5D")
-      // .replace("#", "23%")
-      // .replace("$", "24%")
-      // .replace("(", "28%")
-      // .replace(")", "29%")
-      // .replace("@", "40%")
-      // .replace("{", "%7B")
-      // .replace("}", "%7D")
-      // .replace("&","%26")
-      // .replace("=","%3D")
-      // .replace(" ", "%20")
-      // .replace("（", "%EF%BC%88")
-      // .replace("）", "%EF%BC%89");
-      console.log(this.imgSrc);
+      this.imgSrc= this.imgSrc.replace("\\", "/");
+
+      if(!fs.existsSync(filePath)){
+        this.imgSrc="https://cdn.artstation.com/static_media/placeholders/user/cover/default.jpg"
+      }
+      console.log(fs.existsSync(filePath));
+      console.log(filePath);
+      
+
 
 
       elev.setAttribute("src",this.imgSrc ) ;
       
-      this.ele.appendChild(elev);
+      el.appendChild(elev)
+      this.ele.appendChild(el);
     }
 
     wrap.append(this.ele);
