@@ -1,10 +1,10 @@
 {
-  "id": "simple-embeds",
-  "name": "Simple Embeds",
-  "version": "1.12.0",
+  "id": "eagle-embeds",
+  "name": "Eagle Embeds",
+  "version": "0.1.0",
   "minAppVersion": "0.13.8",
-  "description": "Replaces links, like Twitter and YouTube, with embeds when previewing a file.",
-  "author": "Sam Warnick",
-  "authorUrl": "https://github.com/samwarnick",
-  "isDesktopOnly": false
+  "description": "Replaces Eagle  links, with embeds when previewing a file.",
+  "author": "fengx",
+  "authorUrl": "https://github.com/fengx",
+  "isDesktopOnly": true
 }

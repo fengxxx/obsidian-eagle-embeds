@@ -13,6 +13,7 @@ import {
   TwitterEmbed,
   VimeoEmbed,
   YouTubeEmbed,
+  EagleEmbed,
 } from "./embeds";
 import { debounce, Debouncer, MarkdownView, Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, PluginSettings } from "./settings";
@@ -21,6 +22,8 @@ import { buildSimpleEmbedsViewPlugin } from "./view-plugin";
 
 export default class SimpleEmbedsPlugin extends Plugin {
   settings: PluginSettings;
+  eagleEmb= new EagleEmbed();
+
   embedSources: EmbedSource[] = [
     new TwitterEmbed(),
     new YouTubeEmbed(),
@@ -35,7 +38,10 @@ export default class SimpleEmbedsPlugin extends Plugin {
     new BandcampEmbed(),
     new VimeoEmbed(),
     new RedditEmbed(),
+    this.eagleEmb,
   ];
+
+
   processedMarkdown: Debouncer<[]>;
   currentTheme: "dark" | "light";
 
@@ -43,6 +49,16 @@ export default class SimpleEmbedsPlugin extends Plugin {
     console.log(`Loading ${this.manifest.name} v${this.manifest.version}`);
     await this.loadSettings();
     this.addSettingTab(new SimpleEmbedPluginSettingTab(this.app, this));
+
+    if  (this.manifest.name=="Simple EmbedsXX"){
+      console.log("xxxxxxxx1");
+      this.eagleEmb.GetRootPath();
+      console.log("xxxxxxxx2");
+      console.log("xxxxxxxx4");
+
+    }
+  
+
 
     this.currentTheme = this._getCurrentTheme();
 
@@ -79,6 +95,8 @@ export default class SimpleEmbedsPlugin extends Plugin {
         }
       }),
     );
+  
+
   }
 
   onunload() {
