@@ -50,12 +50,8 @@ export default class SimpleEmbedsPlugin extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new SimpleEmbedPluginSettingTab(this.app, this));
 
-    if  (this.manifest.name=="Simple EmbedsXX"){
-      console.log("xxxxxxxx1");
+    if  (this.manifest.name=="Eagle Embeds"){
       this.eagleEmb.GetRootPath();
-      console.log("xxxxxxxx2");
-      console.log("xxxxxxxx4");
-
     }
   
 

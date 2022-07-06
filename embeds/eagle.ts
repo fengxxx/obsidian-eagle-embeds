@@ -10,8 +10,8 @@ const EAGLE_LINK = new RegExp(
 
 
 
-var imgExts=["PNG","png","jpg","JPG","JPEG","jpeg","webp","gif","GIF"]
-var videosExt=["MP4","mp4"]
+var imgExts=["PNG","png","jpg","JPG","JPEG","jpeg","webp","gif","GIF","bmp","BMP","SVG","svg","tiff","TIFF","tga","TGA"]
+var videosExt=["MP4","mp4","MOV","mov"]
 
 
 export class EagleEmbed implements EmbedSource {
@@ -25,12 +25,13 @@ export class EagleEmbed implements EmbedSource {
 
   SetRootPath(p:string): void {
     this.rootPath=p;
-    console.log(p);
-    console.log("rootPathxx : "+p);
+    if(p!=""){
+      this.eagleRuning=true;
+    }
+    console.log("EagleRootPath : "+p);
   }
   
   public  GetRootPath(): void {
-    console.log("rootPathxx :xxxx ");
     var urlLib="http://localhost:41595/api/library/info";
     fetch(urlLib, {  method: 'GET', redirect: 'follow'})
       .then(response => response.json())
@@ -52,6 +53,11 @@ export class EagleEmbed implements EmbedSource {
     if (data==undefined){
       return;
     }
+    if(!this.eagleRuning){
+      this.GetRootPath();
+      return;
+    }
+    console.log(data);
      this.imgName=data["data"]["name"];
      this.imgExt=data["data"]["ext"];
      this.imgSrc="";
