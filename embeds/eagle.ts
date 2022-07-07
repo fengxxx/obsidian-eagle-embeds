@@ -5,9 +5,13 @@ const fs = require("fs");
 
 // import fileUrl from 'file-url';
 
-const EAGLE_LINK = new RegExp(
-  /eagle:\/\/item\/(?<id>.{13})/,
-);
+// const EAGLE_LINK = new RegExp(
+//   /eagle:\/\/item\/(?<id>.{13})/,
+// );
+
+
+const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>[item|folder]{4,6})\/(?<id>.{13})/,);
+
 
 
 
@@ -42,6 +46,10 @@ export class EagleEmbed implements EmbedSource {
   rootPath=""; 
   valutPath="";
 
+  isGetFolderList=false;
+  folderList={}
+
+
    getPluginPath(app:App): string {
     let adapter = app.vault.adapter;
     if (adapter instanceof FileSystemAdapter) {
@@ -64,7 +72,47 @@ export class EagleEmbed implements EmbedSource {
   }
 
 
+  SetFolderList(data:object){
 
+    // var arr=data;
+    // while (arr==[]) {
+    //   for (let index = 0; index < data.length; index++) {
+    //     const d =data[index] ;
+    //     folderList[d.id]=d.name;
+    //   }
+
+    // }
+    this.folderList=data;
+    console.log(data);
+
+  }
+
+
+  public  GetFolderList(): void {
+    var urlLib="http://localhost:41595/api/folder/list";
+    // fetch(urlLib, {  method: 'GET', redirect: 'follow'})
+    //   .then(response => response.json())
+    //   .then(result => this.SetRootPath(result["data"]["library"]["path"]))
+    //   .catch(error => this.eagleRuning=false);
+    fetch(urlLib, {  method: 'GET', redirect: 'follow'}).then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(' Something went wrong  GetFolderList');
+      })
+      .then((responseJson) => {
+        this.SetFolderList(responseJson["data"]);
+        
+        this.isGetFolderList=true;
+
+      })
+      .catch((error) => {
+        console.log(error)
+        this.isGetFolderList=false;
+        // console.log("server is down!!");
+      });
+    
+  }
 
 
   public  GetRootPath(): void {
@@ -276,39 +324,54 @@ export class EagleEmbed implements EmbedSource {
     this.linktext= link;
     var  wrapper = document.createElement("div");
     const id = matches.groups.id;
+    const linkType = matches.groups.type;
 
     var imgSrcEmpty=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png";
     var imgSrcNotRun=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleNotRun.png";
     var imgSrcLinkEmpty=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleLinkEmpty.png";
 
 
-    var itemExist=true;
-    // console.log("id"+id);
-    var urlItem="http://localhost:41595/api/item/info?id="+id;
+    if(linkType=="item"){
+      var itemExist=true;
+      // console.log("id"+id);
+      var urlItem="http://localhost:41595/api/item/info?id="+id;
+  
+      if(!this.eagleRuning){
+        this.GetRootPath();
+        wrapper.appendChild(this.CreateTipImgEle("启动Eagle",imgSrcNotRun));
+        container.appendChild(wrapper);
+        return container;
+      }
+  
+      fetch(urlItem, {  method: 'GET', redirect: 'follow'}).then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(' Something went wrong  urlItem');
+      })
+      .then((responseJson) => {
+        this.GetEaglePath(responseJson,wrapper,id,link);
+      })
+      .catch((error) => {
+        console.log(error);
+        itemExist=false;
+        wrapper.appendChild(this.CreateTipImgEle("链接失效！",imgSrcLinkEmpty));
+        container.appendChild(wrapper);
+        return container;
+      });
 
-    if(!this.eagleRuning){
-      this.GetRootPath();
-      wrapper.appendChild(this.CreateTipImgEle("启动Eagle",imgSrcNotRun));
+
+    }else if(linkType=="folder"){
+      if (!this.isGetFolderList){
+        this.GetFolderList();
+      }
+      console.log(this.folderList);
+      wrapper.appendChild(this.CreateTipImgEle("链接失效！",imgSrcLinkEmpty));
       container.appendChild(wrapper);
       return container;
     }
 
-    fetch(urlItem, {  method: 'GET', redirect: 'follow'}).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(' Something went wrong  urlItem');
-    })
-    .then((responseJson) => {
-      this.GetEaglePath(responseJson,wrapper,id,link);
-    })
-    .catch((error) => {
-      console.log(error);
-      itemExist=false;
-      wrapper.appendChild(this.CreateTipImgEle("链接失效！",imgSrcLinkEmpty));
-      container.appendChild(wrapper);
-      return container;
-    });
+  
 
 
 
