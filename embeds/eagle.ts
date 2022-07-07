@@ -12,8 +12,8 @@ const EAGLE_LINK = new RegExp(
 
 
 
-var imgExts=["PNG","png","jpg","JPG","JPEG","jpeg","webp","gif","GIF","bmp","BMP","SVG","svg","tiff","TIFF","tga","TGA"]
-var videosExt=["MP4","mp4","MOV","mov"]
+var imgExts=["PNG","JPG","JPEG","WEBP","GIF","BMP","SVG","TIFF","TGA"]
+var videosExt=["MP4","MOV"]
  
 
 
@@ -48,8 +48,6 @@ export class EagleEmbed implements EmbedSource {
     }
     console.log("EagleRootPath : "+this.rootPath);
   }
-  
-
 
   public  GetRootPath(): void {
     var urlLib="http://localhost:41595/api/library/info";
@@ -58,8 +56,6 @@ export class EagleEmbed implements EmbedSource {
       .then(result => this.SetRootPath(result["data"]["library"]["path"]))
       .catch(error => this.eagleRuning=false);
   }
-
-
 
     imgName="";
     imgExt="";
@@ -84,8 +80,9 @@ export class EagleEmbed implements EmbedSource {
      this.imgExt=data["data"]["ext"];
      this.imgSrc="";
       
-      if (imgExts.indexOf(this.imgExt)==-1){
-        if (videosExt.indexOf(this.imgExt)!=-1){
+     var tempExt=this.imgExt.toUpperCase();
+      if (imgExts.indexOf(tempExt)==-1){
+        if (videosExt.indexOf(tempExt)!=-1){
           this.isVideos=true;
           this.isImg=false;
           this.extstr="."+this.imgExt;
@@ -112,13 +109,6 @@ export class EagleEmbed implements EmbedSource {
       l2.setText(this.imgExt.toUpperCase());
       // ul.appendChild(l1);
       ul.appendChild(l2);
-      
-
-      
-    
-      
-      
-     
 
       // l1.setAttribute("style", "display: inline-block; height: 36px;width: 46px;background-image: url(https://cn.eagle.cool/images/logo.png); display: inline-block;");
       l2.setAttribute("style", "  height: 18px; font-size: 11px; font-weight: bolder;color: #a8a8a8; text-align: center;   border-radius: 5px;   display: inline-block;background: #8b0000d6;padding-left: 5px;padding-right: 5px;margin: 5px;");
@@ -138,21 +128,6 @@ export class EagleEmbed implements EmbedSource {
 
         this.imgSrc= this.imgSrc.replace("\\", "/");
         this.imgSrc=encodeURI(this.imgSrc);
-        // .replace("[", "%5B")
-        // .replace("]", "%5D")
-        // .replace("#", "23%")
-        // .replace("$", "24%")
-        // .replace("(", "28%")
-        // .replace(")", "29%")
-        // .replace("@", "40%")
-        // .replace("{", "%7B")
-        // .replace("}", "%7D")
-        // .replace("&","%26")
-        // .replace("=","%3D")
-        // .replace(" ", "%20")
-        // .replace("（", "%EF%BC%88")
-        // .replace("）", "%EF%BC%89")
-
         if(!fs.existsSync(filePath)){
           this.imgSrc="app://local/"+this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
           console.log("file not exist:"+filePath);
@@ -203,61 +178,18 @@ export class EagleEmbed implements EmbedSource {
   createEmbed(link: string, container: HTMLElement) {
     // this._ensureLiteEagleLoaded();
     var  wrapper = document.createElement("div");
-
-    // wrapper.classList.add("img");
-
     const matches = link.match(EAGLE_LINK);
-
     const id = matches.groups.id;
- 
-    
-    var imgName=""; 
-    var imgExt=""; 
-
-    // var data=JSON.parse(" {\"status\": \"xx\"}");    
-
-    // var urlLib="http://localhost:41595/api/library/info";
-    // fetch(urlLib, {  method: 'GET', redirect: 'follow'})
-    //   .then(response => response.json())
-    //   .then(result => rootPath=result["data"]["library"])
-    //   .catch(error => console.log('error', error));
-
-
-    var test;
 
     console.log("id"+id);
     var urlItem="http://localhost:41595/api/item/info?id="+id;
+
     fetch(urlItem, {  method: 'GET', redirect: 'follow'})
       .then(responsex => responsex.json())
-      // .then(resultx => console.log(typeof resultx))
       .then(resultx => this.GetEaglePath(resultx,wrapper,id))
       .catch(error =>this.eagleRuning=false);
 
-
-    // var imgSrc=""
-    // if (data!=undefined){
-    //     console.log(data)
-    //     // imgName=data["data"]["name"];
-    //     // imgExt=data["data"]["ext"];
-    //     // imgSrc=rootPath+"/images/"+id+".info/"+imgName+"."+imgExt
-      
-    // }
-    
-    // console.log(imgName)
-    // console.log(imgSrc)
-
-
-    // const eagle = document.createElement("img");
-    // wrapper.setAttribute("src","https://cdna.artstation.com/p/assets/images/images/051/262/490/large/yu-yong-22-06-warrior-01.jpg");
-  
-  
-    // wrapper.setAttribute("src",imgSrc);
-  
-  
-  
-    // wrapper.appendChild(eagle);
     container.appendChild(wrapper);
-    // container.classList.add("eagle");
     return container;
   }
 
