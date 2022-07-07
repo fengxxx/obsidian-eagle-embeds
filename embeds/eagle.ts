@@ -1,4 +1,5 @@
 import { EmbedSource, EnableEmbedKey } from "./";
+import { App, FileSystemAdapter, Notice } from 'obsidian';
 const fs = require("fs");
 // import { LiteYTEmbed } from "./lite-yt-embed";
 
@@ -13,6 +14,8 @@ const EAGLE_LINK = new RegExp(
 
 var imgExts=["PNG","png","jpg","JPG","JPEG","jpeg","webp","gif","GIF","bmp","BMP","SVG","svg","tiff","TIFF","tga","TGA"]
 var videosExt=["MP4","mp4","MOV","mov"]
+ 
+
 
 
 export class EagleEmbed implements EmbedSource {
@@ -23,15 +26,31 @@ export class EagleEmbed implements EmbedSource {
   //rootPath="/Users/fengx/Documents/WeiyunDisk/EagleLibrary/FengxWork.library"; 
   rootPath=""; 
  
+  valutPath="";
+
+   getPluginPath(app:App): string {
+    let adapter = app.vault.adapter;
+    if (adapter instanceof FileSystemAdapter) {
+       this.valutPath=adapter.getBasePath();
+        console.log("valutPath: "+adapter.getBasePath());
+        return adapter.getBasePath();
+    }else{
+      return "";
+    }
+    
+  }
+
 
   SetRootPath(p:string): void {
     this.rootPath=p;
     if(p!=""){
       this.eagleRuning=true;
     }
-    console.log("EagleRootPath : "+p);
+    console.log("EagleRootPath : "+this.rootPath);
   }
   
+
+
   public  GetRootPath(): void {
     var urlLib="http://localhost:41595/api/library/info";
     fetch(urlLib, {  method: 'GET', redirect: 'follow'})
@@ -51,11 +70,13 @@ export class EagleEmbed implements EmbedSource {
     isVideos=false;
 
   GetEaglePath (data: object ,wrap:HTMLElement,idn:string): void {
+   
     if (data==undefined){
       return;
     }
     if(!this.eagleRuning){
       this.GetRootPath();
+      console.log("GetRootPath")
       return;
     }
     // console.log(data);
@@ -83,16 +104,24 @@ export class EagleEmbed implements EmbedSource {
       // var   imgSrc="app://local/"+rootPath+"/images/"+idn+".info/"+imgName+extstr;
       // var u=new fileUrl(imgSrc);
       this.ele= document.createElement("div");
+      this.ele.setText("xx");
       var ul=document.createElement("ul");
-      var l1=document.createElement("li");
+      // var l1=document.createElement("li");
       var l2=document.createElement("li");
       // l1.setText(this.imgExt);
-      l2.setText(this.imgExt);
-      ul.appendChild(l1);
+      l2.setText(this.imgExt.toUpperCase());
+      // ul.appendChild(l1);
       ul.appendChild(l2);
       
-      l1.setAttribute("style", "display: inline-block; height: 36px;width: 46px;background-image: url(https://cn.eagle.cool/images/logo.png); display: inline-block;");
-      l2.setAttribute("style", " text-align: center;   border-radius: 5px;  height: 25px;width: 46px; display: inline-block;background: #8b00009c;");
+
+      
+    
+      
+      
+     
+
+      // l1.setAttribute("style", "display: inline-block; height: 36px;width: 46px;background-image: url(https://cn.eagle.cool/images/logo.png); display: inline-block;");
+      l2.setAttribute("style", "  height: 18px; font-size: 11px; font-weight: bolder;color: #a8a8a8; text-align: center;   border-radius: 5px;   display: inline-block;background: #8b0000d6;padding-left: 5px;padding-right: 5px;margin: 5px;");
       ul.setAttribute("style", "height: 31px;    display: flex; font-size: 15px;    margin: 0; padding: 0; position: absolute;");
       this.ele.appendChild(ul);
 
@@ -108,6 +137,7 @@ export class EagleEmbed implements EmbedSource {
         this.imgSrc="app://local/"+filePath;
 
         this.imgSrc= this.imgSrc.replace("\\", "/");
+        this.imgSrc=encodeURI(this.imgSrc);
         // .replace("[", "%5B")
         // .replace("]", "%5D")
         // .replace("#", "23%")
@@ -124,10 +154,9 @@ export class EagleEmbed implements EmbedSource {
         // .replace("）", "%EF%BC%89")
 
         if(!fs.existsSync(filePath)){
-          this.imgSrc="https://cdn.artstation.com/static_media/placeholders/user/cover/default.jpg"
+          this.imgSrc="app://local/"+this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
+          console.log("file not exist:"+filePath);
         }
-        console.log(fs.existsSync(filePath));
-        console.log(filePath);
 
         // if(this.imgName)
         // this.ele.setAttribute("src",this.imgSrc);
@@ -147,12 +176,13 @@ export class EagleEmbed implements EmbedSource {
       this.imgSrc="app://local/"+filePath;
 
       this.imgSrc= this.imgSrc.replace("\\", "/");
+      this.imgSrc=encodeURI(this.imgSrc);
 
       if(!fs.existsSync(filePath)){
-        this.imgSrc="https://cdn.artstation.com/static_media/placeholders/user/cover/default.jpg"
+        this.imgSrc="app://local/"+this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
+        console.log("file not exist:"+filePath);
+        
       }
-      console.log(fs.existsSync(filePath));
-      console.log(filePath);
       
 
 
@@ -172,7 +202,6 @@ export class EagleEmbed implements EmbedSource {
 
   createEmbed(link: string, container: HTMLElement) {
     // this._ensureLiteEagleLoaded();
-
     var  wrapper = document.createElement("div");
 
     // wrapper.classList.add("img");
