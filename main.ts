@@ -53,6 +53,7 @@ export default class SimpleEmbedsPlugin extends Plugin {
     if  (this.manifest.name=="Eagle Embeds"){
       this.eagleEmb.GetRootPath();
       this.eagleEmb.getPluginPath(this.app);
+      this.eagleEmb.GetFolderList();
     }
   
 
