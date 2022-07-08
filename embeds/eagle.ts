@@ -15,8 +15,8 @@ const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>[item|folder]{4,6})\/(?<id>.{13
 
 
 
-var imgExts=["PNG","JPG","JPEG","WEBP","GIF","BMP","SVG","TIFF","TGA"]
-var videosExt=["MP4","MOV"]
+var imgExts=["PNG","JPG","JPEG","WEBP","GIF","BMP","SVG","TIFF","TGA"];
+var videosExt=["MP4","MOV"];
  
 
 
@@ -31,8 +31,9 @@ export class EagleEmbed implements EmbedSource {
   valutPath="";
 
   isGetFolderList=false;
-  folderList={}
+  folderList:object[]=new Array();;
 
+  
 
    getPluginPath(app:App): string {
     let adapter = app.vault.adapter;
@@ -58,15 +59,19 @@ export class EagleEmbed implements EmbedSource {
 
   SetFolderList(data:object){
 
-    // var arr=data;
-    // while (arr==[]) {
-    //   for (let index = 0; index < data.length; index++) {
-    //     const d =data[index] ;
-    //     folderList[d.id]=d.name;
-    //   }
-
-    // }
-    this.folderList=data;
+    var stackData:object=new Array(); ;
+    for (let index = 0; index < data.length; index++) {
+      stackData.push(data[index]);
+    }
+    while (stackData.length!=0) {
+      var f=stackData.pop();
+      for (let index = 0; index < f.children.length; index++) {
+        stackData.push(f.children[index]);
+      }
+      
+      this.folderList.push(f);
+      console.log(f.name+": "+f.id);
+    }
     console.log(data);
 
   }
@@ -337,10 +342,22 @@ export class EagleEmbed implements EmbedSource {
 
     }else if(linkType=="folder"){
       if (!this.isGetFolderList){
-        // this.GetFolderList();
+         this.GetFolderList();
       }
+      var fd;
+      for (let index = 0; index < this.folderList.length; index++) {
+          var  f = this.folderList[index];
+          if(f.id==id){
+            fd=f;
+            console.log(f);
+            console.log(f.covers);
+            console.log(f.covers);
+            
+          }
+      }
+
+      wrapper.appendChild(this.CreateTipImgEle("Eagle文件夹:"+fd.name));
       // console.log(this.folderList);
-      wrapper.appendChild(this.CreateTipImgEle("链接失效！"));
       container.appendChild(wrapper);
       return container;
     }
