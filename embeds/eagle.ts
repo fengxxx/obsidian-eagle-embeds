@@ -244,7 +244,7 @@ export class EagleEmbed implements EmbedSource {
   CreateTiteBar(link:string){
     var ele1= document.createElement("div");
     var a=document.createElement("a");
-    a.setText(this.imgName);
+    a.setText(this.imgName+"."+this.imgExt);
     a.setAttribute("style","color: #4c4c4c94;");
     a.setAttribute("href",link);
     ele1.append(a);
@@ -309,7 +309,7 @@ export class EagleEmbed implements EmbedSource {
 
 
     
-    // this.ele.appendChild(this.CreateTiteBar(link));
+    this.ele.appendChild(this.CreateTiteBar(link));
     wrap.append(this.ele);
 
     //  return ele;
@@ -363,9 +363,9 @@ export class EagleEmbed implements EmbedSource {
 
     }else if(linkType=="folder"){
       if (!this.isGetFolderList){
-        this.GetFolderList();
+        // this.GetFolderList();
       }
-      console.log(this.folderList);
+      // console.log(this.folderList);
       wrapper.appendChild(this.CreateTipImgEle("链接失效！",imgSrcLinkEmpty));
       container.appendChild(wrapper);
       return container;
