@@ -290,11 +290,13 @@ export class EagleEmbed implements EmbedSource {
   CreateTipFolderTipEle(imgStr:string,link:string,data:object){
     var ele= document.createElement("div");
     // var tag=(this.CreateImgTag("FODLER"));
+    var st=this.folderImgStyle+this.folderImgStyleShadow;
     if(data){
       var tag=(this.CreateFolderTags([data.descendantImageCount.toString()]));
       ele.appendChild(tag);
+     st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
+
     }
-    var st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/10,3),15) +"px 0px -2px #8181818a;";
     var imgE=this.CreateTipImgEleStyle(imgStr,st,"font-size: 20px;",link);
     ele.setAttribute("style","display: flex;align-items: flex-start;");
     ele.appendChild(imgE);
@@ -306,11 +308,13 @@ export class EagleEmbed implements EmbedSource {
   CreateTipFolderEle(imgStr:string,link:string,data:object){
     var ele= document.createElement("div");
     ele.setAttribute("style","display: flex;align-items: flex-start;");
+    var st=this.folderImgStyle+this.folderImgStyleShadow;
     if(data){
       var tag=(this.CreateFolderTags([data.descendantImageCount.toString()]));
       ele.appendChild(tag);
+      st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
+
   }
-    var st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/10,3),15) +"px 0px -2px #8181818a;";
     var imgE=this.CreateImgEleStyle(imgStr,st,link)
     imgE.setAttribute("href",link)
     ele.appendChild(imgE);
