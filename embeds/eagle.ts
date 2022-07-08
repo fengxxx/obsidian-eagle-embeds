@@ -1,5 +1,6 @@
 import { EmbedSource, EnableEmbedKey } from "./";
 import { App, FileSystemAdapter, Notice } from 'obsidian';
+import { Console } from "console";
 const fs = require("fs");
 // import { LiteYTEmbed } from "./lite-yt-embed";
 
@@ -14,26 +15,9 @@ const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>[item|folder]{4,6})\/(?<id>.{13
 
 
 
-
-
 var imgExts=["PNG","JPG","JPEG","WEBP","GIF","BMP","SVG","TIFF","TGA"]
 var videosExt=["MP4","MOV"]
  
-
-
-// var urlItem="http://localhost:41595/api/item/info?id="+id;
-
-// const getFirstUserData = async () => {
-//   const response = await fetch(urlItem, {  method: 'GET', redirect: 'follow'})
-//   .then(responsex => responsex.json())
-//   .then(resultx => this.GetEaglePath(resultx,wrapper,id))
-//   .catch(error =>this.eagleRuning=false);
-
-//   return resultx
-
-// }
-
-
 
 
 
@@ -41,7 +25,7 @@ export class EagleEmbed implements EmbedSource {
   name = "Eagle";
   enabledKey: EnableEmbedKey = "replaceEagleLinks";
   regex = EAGLE_LINK;
-  eagleRuning=true;
+  eagleRuning=false;
   //rootPath="/Users/fengx/Documents/WeiyunDisk/EagleLibrary/FengxWork.library"; 
   rootPath=""; 
   valutPath="";
@@ -90,10 +74,6 @@ export class EagleEmbed implements EmbedSource {
 
   public  GetFolderList(): void {
     var urlLib="http://localhost:41595/api/folder/list";
-    // fetch(urlLib, {  method: 'GET', redirect: 'follow'})
-    //   .then(response => response.json())
-    //   .then(result => this.SetRootPath(result["data"]["library"]["path"]))
-    //   .catch(error => this.eagleRuning=false);
     fetch(urlLib, {  method: 'GET', redirect: 'follow'}).then((response) => {
         if (response.ok) {
           return response.json();
@@ -117,10 +97,6 @@ export class EagleEmbed implements EmbedSource {
 
   public  GetRootPath(): void {
     var urlLib="http://localhost:41595/api/library/info";
-    // fetch(urlLib, {  method: 'GET', redirect: 'follow'})
-    //   .then(response => response.json())
-    //   .then(result => this.SetRootPath(result["data"]["library"]["path"]))
-    //   .catch(error => this.eagleRuning=false);
     fetch(urlLib, {  method: 'GET', redirect: 'follow'}).then((response) => {
         if (response.ok) {
           return response.json();
@@ -128,14 +104,13 @@ export class EagleEmbed implements EmbedSource {
         throw new Error(' Something went wrong  GetRootPath');
       })
       .then((responseJson) => {
-        this.SetRootPath(responseJson["data"]["library"]["path"]);
         this.eagleRuning=true;
-
+        this.SetRootPath(responseJson["data"]["library"]["path"]);
       })
       .catch((error) => {
-        console.log(error)
         this.eagleRuning=false;
-        // console.log("server is down!!");
+        console.log("Eagle server is down!!");
+        console.log(error)
       });
     
   }
@@ -208,36 +183,27 @@ export class EagleEmbed implements EmbedSource {
     return el;
 }
 
-  CreateTipImgEle(tip:string,imgSrc:string){
+  CreateTipImgEle(tip:string){
     var mainEl= document.createElement("div");
-    
-
-
-    var el=this.CreateImgEle(imgSrc);
+    mainEl.setAttribute("style","  width: 100%;height: calc(100vw * 1080 / 1920/2);max-height: 309px;display: flex;background: #343434b0;justify-content: space-around; align-items: center;align-content: space-around;");
+    // var el=this.CreateImgEle(imgSrc);
     var txt= document.createElement("div");
     txt.setText(tip);
-    txt.setAttribute("style","max-width: 550px; text-align: center;width: 79%;position: absolute;color:#888;");
-    // mainEl.appendChild(txt);
+    txt.setAttribute("style"," font-weight: bold;font-size: 35px;max-width: 550px; text-align: center;width: 79%;position: absolute;color:#c8c7c730;");
+    mainEl.appendChild(txt);
+    return mainEl;
+  }
 
+  CreateTipLinkEle(tip:string,href:string){
+    var mainEl= document.createElement("div");
+    mainEl.setAttribute("style","  width: 100%;height: calc(100vw * 1080 / 1920/2);max-height: 309px;display: flex;background: #343434b0;justify-content: space-around; align-items: center;align-content: space-around;");
+    // var el=this.CreateImgEle(imgSrc);
+    var txt= document.createElement("a");
+    txt.setText(tip);
+    txt.setAttribute("style","text-decoration: none; font-weight: bold;font-size: 15px;max-width: 550px; text-align: center;width: 79%;position: absolute;color:#c8c7c730;");
+    txt.setAttribute("href",href);
 
-    var ul=document.createElement("ul");
-    var l1=document.createElement("li");
-    var a=document.createElement("a");
-    a.setText(tip);
-    ul.appendChild(l1);
-
-    a.setAttribute("style", "     text-decoration: auto; height: 50px; font-size: 35px; font-weight: bolder;color: #a8a8a8; text-align: center;   border-radius: 5px;   display: inline-block;background: #8b0000ff;padding-left: 5px;padding-right: 5px;margin: 5px;");
-    a.setAttribute("href","eagle://xxxxx");
-
-    l1.setAttribute("style","display: block;");
-    l1.append(a);
-    ul.setAttribute("style", "height: 31px;    display: flex; font-size: 15px;    margin: 0; padding: 0; position: absolute;");
-    
-
-
-    mainEl.appendChild(ul);
-    mainEl.appendChild(el);
-
+    mainEl.appendChild(txt);
     return mainEl;
   }
 
@@ -297,11 +263,15 @@ export class EagleEmbed implements EmbedSource {
 
     if  (this.isImg){
       var imgFilePath=filePath;
+      
+      
       if(!fs.existsSync(filePath)){
-        imgFilePath=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
+        var bg=this.CreateTipImgEle("无缩略图！");
+        this.ele.appendChild(bg);
+      }else{
+        var bg1=this.CreateImgEle(imgFilePath);
+        this.ele.appendChild(bg1);
       }
-       var bg=this.CreateImgEle(imgFilePath);
-       this.ele.appendChild(bg);
     }else{
       var vel=this.CreateVideoEle(filePath);
         this.ele.appendChild(vel);
@@ -326,11 +296,6 @@ export class EagleEmbed implements EmbedSource {
     const id = matches.groups.id;
     const linkType = matches.groups.type;
 
-    var imgSrcEmpty=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png";
-    var imgSrcNotRun=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleNotRun.png";
-    var imgSrcLinkEmpty=this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleLinkEmpty.png";
-
-
     if(linkType=="item"){
       var itemExist=true;
       // console.log("id"+id);
@@ -338,9 +303,18 @@ export class EagleEmbed implements EmbedSource {
   
       if(!this.eagleRuning){
         this.GetRootPath();
-        wrapper.appendChild(this.CreateTipImgEle("启动Eagle",imgSrcNotRun));
+        console.log("Eagle not runing！")
+        var u = navigator.userAgent;
+        var app = navigator.appVersion;
+        var android= u.indexOf('Android') > -1;
+        var ios= u.indexOf('Android') > -1;
+        wrapper.appendChild(this.CreateTipLinkEle(app,link));
         container.appendChild(wrapper);
         return container;
+      }else{
+
+        // console.log("this.eagleRuning"+this.rootPath);
+
       }
   
       fetch(urlItem, {  method: 'GET', redirect: 'follow'}).then((response) => {
@@ -355,7 +329,7 @@ export class EagleEmbed implements EmbedSource {
       .catch((error) => {
         console.log(error);
         itemExist=false;
-        wrapper.appendChild(this.CreateTipImgEle("链接失效！",imgSrcLinkEmpty));
+        wrapper.appendChild(this.CreateTipImgEle("链接失效！"));
         container.appendChild(wrapper);
         return container;
       });
@@ -366,7 +340,7 @@ export class EagleEmbed implements EmbedSource {
         // this.GetFolderList();
       }
       // console.log(this.folderList);
-      wrapper.appendChild(this.CreateTipImgEle("链接失效！",imgSrcLinkEmpty));
+      wrapper.appendChild(this.CreateTipImgEle("链接失效！"));
       container.appendChild(wrapper);
       return container;
     }
