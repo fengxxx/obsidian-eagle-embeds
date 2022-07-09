@@ -1,6 +1,8 @@
 import { EmbedSource, EnableEmbedKey } from "./";
-import { App, FileSystemAdapter, Notice, requestUrl } from 'obsidian';
+import { App, FileSystemAdapter, Notice, requestUrl, Setting } from 'obsidian';
 import { Console } from "console";
+import { PluginSettings } from "settings";
+import { settings } from "cluster";
 const fs = require("fs");
 // import { LiteYTEmbed } from "./lite-yt-embed";
 
@@ -22,6 +24,10 @@ var videosExt=["MP4","MOV"];
 
 
 
+
+
+
+
 export class EagleEmbed implements EmbedSource {
   name = "Eagle";
   enabledKey: EnableEmbedKey = "replaceEagleLinks";
@@ -33,6 +39,7 @@ export class EagleEmbed implements EmbedSource {
 
   isGetFolderList=false;
   folderList:object[]=new Array();;
+
 
   
 
@@ -73,12 +80,18 @@ export class EagleEmbed implements EmbedSource {
       this.folderList.push(f);
       // console.log(f.name+": "+f.id);
     }
-    console.log(data);
+    // console.log(data);
 
   }
 
 
+
+
+
   public  GetFolderList(): void {
+    if(this.isGetFolderList){
+      return;
+    }
     var urlLib="http://localhost:41595/api/folder/list";
     fetch(urlLib, {  method: 'GET', redirect: 'follow'}).then((response) => {
         if (response.ok) {
@@ -93,8 +106,8 @@ export class EagleEmbed implements EmbedSource {
 
       })
       .catch((error) => {
-        console.log(error)
         this.isGetFolderList=false;
+        console.log("GetFolderList:"+error);
         // console.log("server is down!!");
       });
     
@@ -102,6 +115,9 @@ export class EagleEmbed implements EmbedSource {
 
 
   public  GetRootPath(): void {
+    if(this.eagleRuning){
+      return;
+    }
     var urlLib="http://localhost:41595/api/library/info";
     fetch(urlLib, {  method: 'GET', redirect: 'follow'}).then((response) => {
         if (response.ok) {
@@ -138,7 +154,7 @@ export class EagleEmbed implements EmbedSource {
       const t = tag[index];
       var l2=document.createElement("li");
       l2.setText(t.toUpperCase());
-      l2.setAttribute("style", "  height: 18px; font-size: 15px; font-weight: bolder;color: #fff; text-align: center;   border-radius: 5px;   display: inline-block;background: #000000a3;padding-left: 5px;padding-right: 5px;margin: 5px;");
+      l2.setAttribute("style", "  height: 18px; font-size: 15px; font-weight: bolder;color: #dfdfdf; text-align: center;   border-radius: 5px;   display: inline-block;background: #000000a3;padding-left: 5px;padding-right: 5px;margin: 5px;");
       ul.appendChild(l2);
     }
   
@@ -271,8 +287,15 @@ export class EagleEmbed implements EmbedSource {
 
 
 
-  folderImgStyle="outline-offset: -2px;  outline-width: 2px;outline-color: #00000057;  outline-style: solid;width: 142px;height: 83px;border-radius: 9.5px;  border-top-left-radius: 5px;    border-top-right-radius: 18.5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;";
-  folderImgStyleShadow="box-shadow: 0px -4px 0px -2px #8181818a;";
+  // folderImgStyle="outline-offset: -2px;  outline-width: 2px;outline-color: #00000057;  outline-style: solid;width: 142px;height: 83px;border-radius: 9.5px;  border-top-left-radius: 5px;    border-top-right-radius: 18.5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;";
+  // folderImgStyleShadow="box-shadow: 0px -4px 0px -2px #8181818a;";
+
+
+  folderImgStyle="  width: 142px;height: 83px;border-radius: 3.5px;pointer-events: none;";
+  folderImgStyleShadow="box-shadow:0px 0px 8px 3px #0000004d;";
+  folderTitieStyle= "font-weight: bolder;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;top: 54px; width: 110px;left: 19px;position: absolute;color: #d5d5d5c4;text-decoration: none; text-decoration: none;text-shadow: 1px 1px 2px #000000fa;"
+  
+ 
   // box-shadow: 1px 1px 7px 0px #000000d4;
 
   CreateTipFolderTipLinkEle(imgStr:string,link:string){
@@ -287,37 +310,79 @@ export class EagleEmbed implements EmbedSource {
   }
 
 
-  CreateTipFolderTipEle(imgStr:string,link:string,data:object){
+  CreateTipFolderTipEle(imgStr:string,link:string,data:object,settings: Readonly<PluginSettings>){
     var ele= document.createElement("div");
+    st=this.folderImgStyle+this.folderImgStyleShadow+"left:8px;width:132px;top:-8px;position:absolute;background: #282828a8;z-index: -1;";
+    var imgEBG=this.CreateImgBGEle(st);
+    st=this.folderImgStyle+"width:142px;position:absolute;    background: linear-gradient(0deg, #181818d1, #ffffff00);";
+    var imgEFG=this.CreateImgBGEle(st);
+
     // var tag=(this.CreateImgTag("FODLER"));
     var st=this.folderImgStyle+this.folderImgStyleShadow;
     if(data){
       var tag=(this.CreateFolderTags([data.descendantImageCount.toString()]));
       ele.appendChild(tag);
-     st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
-
+    //  st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
+     st=this.folderImgStyle+this.folderImgStyleShadow;
     }
     var imgE=this.CreateTipImgEleStyle(imgStr,st,"font-size: 20px;",link);
     ele.setAttribute("style","display: flex;align-items: flex-start;");
+    imgE.appendChild(imgEBG);
+
+
+
+ 
     ele.appendChild(imgE);
+    ele.appendChild(imgEFG);
+
+    if(settings.FolderShowInnerLink){
+      var ele1= document.createElement("div");
+      ele1.setText(data.name);
+      ele1.setAttribute("style",this.folderTitieStyle);
+      ele.append(ele1);
+    }
+
+
     return ele;
 
 
   }
 
-  CreateTipFolderEle(imgStr:string,link:string,data:object){
+  CreateTipFolderEle(imgStr:string,link:string,data:object,settings: Readonly<PluginSettings>){
     var ele= document.createElement("div");
+    st=this.folderImgStyle+this.folderImgStyleShadow+"left:8px;width:132px;top:-8px;position:absolute;background: #282828a8;z-index: -1;";
+    var imgEBG=this.CreateImgBGEle(st);
+    st=this.folderImgStyle+"width:142px;position:absolute;    background: linear-gradient(0deg, #181818d1, #ffffff00);";
+    var imgEFG=this.CreateImgBGEle(st);
+
+
     ele.setAttribute("style","display: flex;align-items: flex-start;");
     var st=this.folderImgStyle+this.folderImgStyleShadow;
     if(data){
       var tag=(this.CreateFolderTags([data.descendantImageCount.toString()]));
       ele.appendChild(tag);
-      st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
+      // st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
+      st=this.folderImgStyle+this.folderImgStyleShadow;
 
   }
     var imgE=this.CreateImgEleStyle(imgStr,st,link)
-    imgE.setAttribute("href",link)
+ 
+
+    imgE.setAttribute("href",link);
+    imgE.appendChild(imgEBG);
+    
+
+
     ele.appendChild(imgE);
+    ele.appendChild(imgEFG);
+    if(settings.FolderShowInnerLink){
+      var ele1= document.createElement("div");
+      ele1.setText(data.name);
+      ele1.setAttribute("style",this.folderTitieStyle);
+      ele.append(ele1);
+    }
+
+
     return ele;
   }
 
@@ -342,7 +407,7 @@ export class EagleEmbed implements EmbedSource {
 
 
 
-  GetEaglePath (data: object ,wrap:HTMLElement,idn:string,link:string): void {
+  GetEaglePath (data: object ,wrap:HTMLElement,idn:string,link:string,settings: Readonly<PluginSettings>): void {
    
     if (data==undefined){
       return;
@@ -403,17 +468,72 @@ export class EagleEmbed implements EmbedSource {
     }
 
 
-    
-    this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt,link));
+    // 显示名字
+    if(settings.ItemShowLink){
+      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt,link));
+    }
     wrap.append(this.ele);
 
     //  return ele;
   }
 
+ 
+
+  // async function fetchMovies() {
+  //   const response = await fetch('/movies');
+  //   // 等待直到请求完成
+  //   console.log(response);
+  // }
+
+  //  itemData:object;
+  async  GetItemInfor(id: string): Promise<any> {
+    const urlItem="http://localhost:41595/api/item/info?id="+id;
+    try {
+      const response = await fetch(urlItem, {  method: 'GET', redirect: 'follow'});
+      const data   = response.json();
+      return data;
+    } catch (error) {
+        if (error) {
+            return false;
+        }
+    }
+
+    // const response = await fetch(urlItem, {  method: 'GET', redirect: 'follow'});
+    // .catch((error) => {
+    //     console.log(error);
+    //     return false;
+    //   });
+    // const data = await response.json();
+//   if (response.ok) {
+    //     return response.json();
+    //   }else{
+    //     console.log(' Something went wrong  urlItem');
+    //     return false;
+    //   }
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    //   return false;
+    // });
+ 
+       // .then((responseJson) => {
+    //   return responseJson;
+    // })
+
+    // const data = await response.json();
+
+    // const response = await fetch(urlItem);
+    // const data = await response.json();
+    // return data;
+  }
 
 
+  
+  
 
-  createEmbed(link: string, container: HTMLElement) {
+    
+  createEmbed(link: string, container: HTMLElement ,settings: Readonly<PluginSettings>,) {
+    // this.fetchMovies();
     // this._ensureLiteEagleLoaded();
     const matches = link.match(EAGLE_LINK);
     this.linktext= link;
@@ -427,7 +547,6 @@ export class EagleEmbed implements EmbedSource {
       var itemExist=true;
       // console.log("id"+id);
       var urlItem="http://localhost:41595/api/item/info?id="+id;
-  
       if(!this.eagleRuning){
         this.GetRootPath();
         console.log("Eagle not runing！")
@@ -449,6 +568,23 @@ export class EagleEmbed implements EmbedSource {
 
       }
   
+
+      // var d=this.GetItemInfor(id);
+      // if(d){
+      //   console.log(d);
+      //   console.log(d[2]);
+      //   this.GetEaglePath(d,wrapper,id,link);
+      // }else{
+      //   itemExist=false;
+      //   var imgTag=this.CreateImgTag("NULL");
+      //   wrapper.appendChild(imgTag);
+      //   wrapper.appendChild(this.CreateTipImgEle("链接失效！"));
+      //   container.appendChild(wrapper);
+      //   return container;
+
+      // }
+
+
       fetch(urlItem, {  method: 'GET', redirect: 'follow'}).then((response) => {
         if (response.ok) {
           return response.json();
@@ -456,7 +592,7 @@ export class EagleEmbed implements EmbedSource {
         throw new Error(' Something went wrong  urlItem');
       })
       .then((responseJson) => {
-        this.GetEaglePath(responseJson,wrapper,id,link);
+        this.GetEaglePath(responseJson,wrapper,id,link,settings);
       })
       .catch((error) => {
         console.log(error);
@@ -471,8 +607,10 @@ export class EagleEmbed implements EmbedSource {
 
     }else if(linkType=="folder"){
       if(!this.eagleRuning){
+        this.GetRootPath();
         wrapper.appendChild(this.CreateTipFolderTipLinkEle("Eagle 未启动！","eagle://start"));
         container.appendChild(wrapper);
+        
         return container;
       }
 
@@ -497,11 +635,11 @@ export class EagleEmbed implements EmbedSource {
             if(fd.covers){
               const matches = fd.covers[0].match(EAGLE_FOLDER_BG_LINK);
               const url = decodeURI(matches.groups.url);
-              wrapper.appendChild(this.CreateTipFolderEle(url,link,fd));
+              wrapper.appendChild(this.CreateTipFolderEle(url,link,fd,settings));
 
               
             }else{
-                wrapper.appendChild(this.CreateTipFolderTipEle("无封面！",link,fd));
+                wrapper.appendChild(this.CreateTipFolderTipEle("无封面！",link,fd,settings));
 
             }
           }else{
@@ -510,7 +648,9 @@ export class EagleEmbed implements EmbedSource {
 
           }
           if(fd){
-            wrapper.appendChild(this.CreateTiteBar(fd.name,link));
+            if(settings.FolderShowLink){
+              wrapper.appendChild(this.CreateTiteBar(fd.name,link));
+            }
 
           }
         
@@ -557,4 +697,73 @@ export class EagleEmbed implements EmbedSource {
     const seconds = parseInt(matches.groups.seconds ?? "0");
     return `${hoursInSeconds + minutesInSeconds + seconds}`;
   }
+
+  createAdditionalSettings(
+    containerEl: HTMLElement,
+    settings: Readonly<PluginSettings>,
+    saveSettings: (updates: Partial<PluginSettings>) => Promise<void>,
+  ) {
+    
+    
+
+    const keepLinksInPreviewE = new Setting(containerEl)
+    .setName("keepLinksInPreview")
+    .addToggle((toggle) => {
+      toggle
+        .setValue(settings.keepLinksInPreview)
+        .onChange(async (value) => {
+          await saveSettings({ keepLinksInPreview: value });
+        });
+    });
+
+
+    const keepEagleLinksInPre = new Setting(containerEl)
+    .setName("显示原有链接")
+    .addToggle((toggle) => {
+      toggle
+        .setValue(settings.keepEagleLinksInPreview)
+        .onChange(async (value) => {
+          await saveSettings({ keepEagleLinksInPre: value });
+        });
+    });
+
+
+
+    const itemShowLinktem = new Setting(containerEl)
+    .setName("图片显示 标题")
+    .addToggle((toggle) => {
+      toggle
+        .setValue(settings.ItemShowLink)
+        .onChange(async (value) => {
+          await saveSettings({ ItemShowLink: value });
+        });
+    });
+
+
+    const folderShowInnerLink = new Setting(containerEl)
+    .setName("文件夹内显示 标题")
+    .addToggle((toggle) => {
+      toggle
+        .setValue(settings.FolderShowInnerLink)
+        .onChange(async (value) => {
+          await saveSettings({ FolderShowInnerLink: value });
+        });
+    });
+
+
+    const folderShowLink = new Setting(containerEl)
+    .setName("文件夹显示 标题")
+    .addToggle((toggle) => {
+      toggle
+        .setValue(settings.FolderShowLink)
+        .onChange(async (value) => {
+          await saveSettings({ FolderShowLink: value });
+        });
+    });
+
+
+
+    return [itemShowLinktem,folderShowLink,keepLinksInPreviewE,keepEagleLinksInPre];
+  }
+  
 }

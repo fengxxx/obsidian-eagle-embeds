@@ -14,6 +14,17 @@ export interface EnableEmbeds {
   replaceYouTubeLinks: boolean;
   replaceEagleLinks: boolean;
 }
+
+
+export interface EagleAppearanceSettings {
+  keepLinksInPreview:boolean;
+  keepEagleLinksInPreview: boolean;
+  FolderShowLink: boolean;
+  FolderShowInnerLink: boolean;
+  ItemShowLink:boolean;
+
+}
+
 export interface TwitterAppearanceSettings {
   twitterTheme: "auto" | "dark" | "light";
 }
@@ -37,6 +48,7 @@ export interface AdvancedSettings {
 
 export interface PluginSettings
   extends EnableEmbeds,
+    EagleAppearanceSettings,
     TwitterAppearanceSettings,
     CodePenAppearanceSettings,
     RedditAppearanceSettings,
@@ -59,6 +71,12 @@ export const DEFAULT_SETTINGS: PluginSettings = {
   replaceEagleLinks: true,
 
   twitterTheme: "auto",
+  
+  keepEagleLinksInPreview:false,
+  FolderShowLink: false,
+  ItemShowLink:false,
+  FolderShowInnerLink:false,
+
 
   codepenTheme: "auto",
   codepenDefaultTab: "html",
