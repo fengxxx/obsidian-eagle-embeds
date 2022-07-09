@@ -257,7 +257,9 @@ export class EagleEmbed implements EmbedSource {
     if(link!=""){
       aEl.setAttribute("href",link)
     }
+    aEl.setAttribute("style","z-index: 0;");
     aEl.appendChild(mainEl);
+
     var txt= document.createElement("div");
     txt.setText(tip);
     txt.setAttribute("style"," font-weight: bold;font-size: 35px;max-width: 550px; text-align: center;width: 79%;position: absolute;color:#c8c7c730;"+txtStyle);
@@ -314,7 +316,7 @@ export class EagleEmbed implements EmbedSource {
     var ele= document.createElement("div");
     st=this.folderImgStyle+this.folderImgStyleShadow+"left:8px;width:132px;top:-8px;position:absolute;background: #282828a8;z-index: -1;";
     var imgEBG=this.CreateImgBGEle(st);
-    st=this.folderImgStyle+"width:142px;position:absolute;    background: linear-gradient(0deg, #181818d1, #ffffff00);";
+    st=this.folderImgStyle+"width:142px;position:absolute;    background: linear-gradient(0deg, #181818d1, #ffffff00);z-index: 0;";
     var imgEFG=this.CreateImgBGEle(st);
 
     // var tag=(this.CreateImgTag("FODLER"));
@@ -323,7 +325,7 @@ export class EagleEmbed implements EmbedSource {
       var tag=(this.CreateFolderTags([data.descendantImageCount.toString()]));
       ele.appendChild(tag);
     //  st=this.folderImgStyle+"box-shadow: 0px -"+Math.min(Math.max(data.descendantImageCount/2,3),15) +"px 0px -2px #8181818a;";
-     st=this.folderImgStyle+this.folderImgStyleShadow;
+     st=this.folderImgStyle+this.folderImgStyleShadow+"z-index: 0;";
     }
     var imgE=this.CreateTipImgEleStyle(imgStr,st,"font-size: 20px;",link);
     ele.setAttribute("style","display: flex;align-items: flex-start;");
@@ -386,11 +388,15 @@ export class EagleEmbed implements EmbedSource {
     return ele;
   }
 
-  CreateTiteBar(name:string,link:string){
-    var ele1= document.createElement("div");
+  CreateTiteBar(name:string,link:string,leftst:string){
+    var ele1= document.createElement("blockquote");
+    ele1.setAttribute("style","margin-top: 0px;margin-right: 0px;margin-bottom: 0px;margin-left: 16px;"+leftst);
     var a=document.createElement("a");
     a.setText(name);
-    a.setAttribute("style","color: #fff;text-decoration: none; text-decoration: none;text-shadow: 1px 1px 2px #00000000;");
+    a.setAttribute("style","color: #b3b3b39e;text-decoration: none; text-decoration: none;text-shadow: 1px 1px 2px #00000000; ");
+
+   
+
     a.setAttribute("href",link);
     ele1.append(a);
     return ele1;
@@ -418,6 +424,7 @@ export class EagleEmbed implements EmbedSource {
      this.imgExt=data["data"]["ext"];
      this.imgSrc="";
       
+     var notImgVideo=false;
      var tempExt=this.imgExt.toUpperCase();
       if (imgExts.indexOf(tempExt)==-1){
         if (videosExt.indexOf(tempExt)!=-1){
@@ -427,6 +434,7 @@ export class EagleEmbed implements EmbedSource {
 
         }else{
           this.extstr="_thumbnail.png";
+          notImgVideo=true;
           this.isImg=true;
           this.isVideos=false;
         }
@@ -456,11 +464,24 @@ export class EagleEmbed implements EmbedSource {
       
       
       if(!fs.existsSync(filePath)){
-        var bg=this.CreateTipImgEle("无缩略图！");
-        this.ele.appendChild(bg);
-      }else{
-        var bg1=this.CreateImgEle(imgFilePath);
+        // var bg=this.CreateTipImgEle("无缩略图！");
+        
+        // if(notImgVideo){
+        var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
         this.ele.appendChild(bg1);
+        //   this.ele.appendChild(bg1);
+        // }else{
+        //   var bg1=this.CreateTipImgEle("无缩略图！");
+        //   this.ele.appendChild(bg1);
+        // }
+      }else{
+        if(notImgVideo){
+          var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
+          this.ele.appendChild(bg1);
+        }else{
+          var bg1=this.CreateImgEle(imgFilePath);
+          this.ele.appendChild(bg1);
+        }
       }
     }else{
       var vel=this.CreateVideoEle(filePath);
@@ -470,7 +491,7 @@ export class EagleEmbed implements EmbedSource {
 
     // 显示名字
     if(settings.ItemShowLink){
-      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt,link));
+      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt,link,""));
     }
     wrap.append(this.ele);
 
@@ -649,7 +670,7 @@ export class EagleEmbed implements EmbedSource {
           }
           if(fd){
             if(settings.FolderShowLink){
-              wrapper.appendChild(this.CreateTiteBar(fd.name,link));
+              wrapper.appendChild(this.CreateTiteBar(fd.name,link,"margin-left: 2px;"));
             }
 
           }
