@@ -13,16 +13,23 @@ const fs = require("fs");
 // );
 
 
-const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>[item|folder]{4,6})\/(?<id>.{13})/,);
+const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>item|folder)\/(?<id>[\w]{13})/,);
 const EAGLE_FOLDER_BG_LINK = new RegExp(/url\([\\]{0,1}"file:\/\/\/(?<url>.*)[\\]{0,1}"\)/,);
 
 
 
 var imgExts=["PNG","JPG","JPEG","WEBP","GIF","BMP","SVG","TIFF","TGA"];
-var videosExt=["MP4","MOV"];
+var videosExt=["MP4","MOV","WEBM"];
+var audioExt=["WAV","MP3","OGG"];
  
 
-
+enum ItemType {
+  Others = 0,
+  Image = 1,
+  Video = 2,
+  Audio = 3,
+  //  = 4,
+}
 
 
 
@@ -139,13 +146,17 @@ export class EagleEmbed implements EmbedSource {
 
 
 
+  
+  itemType=ItemType.Others;
   imgName="";
   imgExt="";
   imgSrc="";
   ele:object;
   extstr="";
-  isImg=false;
-  isVideos=false;
+  extVideoStr="";
+  extAudioStr="";
+  // isImg=false;
+  // isVideos=false;
   linktext="";
 
   CreateFolderTags(tag:string[]){
@@ -224,15 +235,51 @@ export class EagleEmbed implements EmbedSource {
   } 
 
 
-  CreateVideoEle (videoPath:string ){
+  CreateAudioEle (audioPath:string){
+    var el= document.createElement("div");
+    el.className="internal-embed media-embed is-loaded";
+    el.setAttribute("src","eagle:/item/"+this.imgName);
+
+    var elev=document.createElement("audio");
+    elev.setAttribute("controls","");
+
+    // var poster=videoPath
+    // if(!fs.existsSync(poster)){
+    //   this.imgSrc="app://local/"+this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
+    //   console.log("file not exist:"+videoPath);
+    // }
+    // elev.setAttribute("poster","app://local/"+poster );
+    var imgSrc="app://local/"+audioPath;
+
+    imgSrc= imgSrc.replace("\\", "/");
+    imgSrc=encodeURI(imgSrc);
+
+    if(!fs.existsSync(audioPath)){
+      this.imgSrc="app://local/"+this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
+      console.log("file not exist:"+audioPath);
+    }
+
+    elev.setAttribute("src",imgSrc ) ;
+    
+    el.appendChild(elev)
+    return el;
+}
+
+  CreateVideoEle (videoPath:string,poster:string ){
     var el= document.createElement("div");
     el.className="internal-embed media-embed is-loaded";
     el.setAttribute("src","eagle:/item/"+this.imgName);
 
     var elev=document.createElement("video");
     elev.setAttribute("controls","");
+    elev.setAttribute("style","width:100%");
 
-
+    // var poster=videoPath
+    // if(!fs.existsSync(poster)){
+    //   this.imgSrc="app://local/"+this.valutPath+"/.obsidian/plugins/eagle_embeds/EagleEmpty.png"
+    //   console.log("file not exist:"+videoPath);
+    // }
+    elev.setAttribute("poster","app://local/"+poster );
     var imgSrc="app://local/"+videoPath;
 
     imgSrc= imgSrc.replace("\\", "/");
@@ -339,7 +386,7 @@ export class EagleEmbed implements EmbedSource {
 
     if(settings.FolderShowInnerLink){
       var ele1= document.createElement("div");
-      ele1.setText(data.name);
+      ele1.setText(data.name+" | "+data.tags);
       ele1.setAttribute("style",this.folderTitieStyle);
       ele.append(ele1);
     }
@@ -407,7 +454,7 @@ export class EagleEmbed implements EmbedSource {
 
 
 
- 
+
 
 
 
@@ -423,27 +470,47 @@ export class EagleEmbed implements EmbedSource {
      this.imgName=data["data"]["name"];
      this.imgExt=data["data"]["ext"];
      this.imgSrc="";
-      
-     var notImgVideo=false;
+    //  var notImgVideo=false;
      var tempExt=this.imgExt.toUpperCase();
-      if (imgExts.indexOf(tempExt)==-1){
-        if (videosExt.indexOf(tempExt)!=-1){
-          this.isVideos=true;
-          this.isImg=false;
-          this.extstr="."+this.imgExt;
+    
 
-        }else{
-          this.extstr="_thumbnail.png";
-          notImgVideo=true;
-          this.isImg=true;
-          this.isVideos=false;
-        }
+    this.extstr="."+this.imgExt;
+    if(videosExt.indexOf(tempExt)>-1){
+      this.itemType=ItemType.Video;
+      this.extVideoStr="_thumbnail.png";
+    }else if (imgExts.indexOf(tempExt)>-1){
+      this.itemType=ItemType.Image;
+    }else if (audioExt.indexOf(tempExt)>-1){
+      this.itemType=ItemType.Audio;
+      this.extAudioStr="_thumbnail.png";
+    }else{
+      this.itemType=ItemType.Others;
+      this.extstr="_thumbnail.png";
+    }
+
+
+
+  
+      // if (imgExts.indexOf(tempExt)==-1){
+      //   this.itemType=ItemType.Image;
+      //   if (videosExt.indexOf(tempExt)!=-1){
+      //     this.isVideos=true;
+      //     this.isImg=false;
+      //     this.extstr="."+this.imgExt;
+      //     this.extVideoStr="_thumbnail.png";
+
+      //   }else{
+      //     this.extstr="_thumbnail.png";
+      //     notImgVideo=true;
+      //     this.isImg=true;
+      //     this.isVideos=false;
+      //   }
       
-      }else {
-        this.isImg=true;
-        this.isVideos=false;
-        this.extstr="."+this.imgExt;
-      }
+      // }else {
+      //   this.isImg=true;
+      //   this.isVideos=false;
+      //   this.extstr="."+this.imgExt;
+      // }
       // console.log("imgName: "+this.imgName);
       // console.log("imgExts: "+this.imgExt);
       // console.log("isImg,isVideos: "+this.isImg +this.isVideos);
@@ -458,40 +525,52 @@ export class EagleEmbed implements EmbedSource {
 
 
     var filePath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;
+    var fileVideoImgPath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extVideoStr;
+    var imgFilePath=filePath;
 
-    if  (this.isImg){
-      var imgFilePath=filePath;
-      
-      
-      if(!fs.existsSync(filePath)){
-        // var bg=this.CreateTipImgEle("无缩略图！");
-        
-        // if(notImgVideo){
-        var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
-        this.ele.appendChild(bg1);
-        //   this.ele.appendChild(bg1);
-        // }else{
-        //   var bg1=this.CreateTipImgEle("无缩略图！");
-        //   this.ele.appendChild(bg1);
-        // }
-      }else{
-        if(notImgVideo){
-          var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
-          this.ele.appendChild(bg1);
-        }else{
-          var bg1=this.CreateImgEle(imgFilePath);
-          this.ele.appendChild(bg1);
-        }
+    switch (this.itemType) {
+        case ItemType.Image:
+            var bg1=this.CreateImgEle(imgFilePath);
+            this.ele.appendChild(bg1);
+            break;
+          case ItemType.Video:
+            var vel=this.CreateVideoEle(filePath,fileVideoImgPath);
+            this.ele.appendChild(vel);
+            break;
+          case ItemType.Audio:
+            if(!fs.existsSync(filePath)){
+              var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+            }else{
+            var vel=this.CreateAudioEle(filePath,fileVideoImgPath);
+            }
+            this.ele.appendChild(vel);
+            break;
+          case ItemType.Others:
+            if(!fs.existsSync(filePath)){
+              var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              this.ele.appendChild(bg1);
+            }else{
+              var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
+              this.ele.appendChild(bg1);
+            }
+              break;
+          default:
+            if(!fs.existsSync(filePath)){
+              var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              this.ele.appendChild(bg1);
+            }else{
+              var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
+              this.ele.appendChild(bg1);
+            }
+    
+            break;
       }
-    }else{
-      var vel=this.CreateVideoEle(filePath);
-        this.ele.appendChild(vel);
-    }
+
 
 
     // 显示名字
     if(settings.ItemShowLink){
-      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt,link,""));
+      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt+"|"+data.data.tags,link,""));
     }
     wrap.append(this.ele);
 
@@ -518,6 +597,9 @@ export class EagleEmbed implements EmbedSource {
             return false;
         }
     }
+
+
+
 
     // const response = await fetch(urlItem, {  method: 'GET', redirect: 'follow'});
     // .catch((error) => {
