@@ -12,6 +12,56 @@ const fs = require("fs");
 //   /eagle:\/\/item\/(?<id>.{13})/,
 // );
 
+var fileSvg=`<svg width="192" height="254" viewBox="0 0 192 254" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_di_235_214)">
+<path d="M115.429 12.9289C113.554 11.0536 111.01 10 108.358 10H27.2C20.4794 10 17.1191 10 14.5521 11.3079C12.2942 12.4584 10.4584 14.2942 9.30792 16.5521C8 19.1191 8 22.4794 8 29.2V222.8C8 229.521 8 232.881 9.30792 235.448C10.4584 237.706 12.2942 239.542 14.5521 240.692C17.1191 242 20.4794 242 27.2 242H162.8C169.521 242 172.881 242 175.448 240.692C177.706 239.542 179.542 237.706 180.692 235.448C182 232.881 182 229.521 182 222.8V83.6414C182 80.9893 180.946 78.4457 179.071 76.5703L115.429 12.9289Z" fill="url(#paint0_linear_235_214)"/>
+</g>
+<path d="M53.8758 220H61.7518V209.132H65.5798C72.5318 209.132 78.5158 205.7 78.5158 197.912C78.5158 189.816 72.5758 187.22 65.4038 187.22H53.8758V220ZM61.7518 202.928V193.468H64.9638C68.7478 193.468 70.8598 194.612 70.8598 197.912C70.8598 201.124 69.0118 202.928 65.1838 202.928H61.7518ZM84.0828 220H93.9388C103.487 220 110.087 214.852 110.087 203.456C110.087 192.06 103.487 187.22 93.4988 187.22H84.0828V220ZM91.9588 213.664V193.512H93.0148C98.2948 193.512 102.035 195.668 102.035 203.456C102.035 211.244 98.2948 213.664 93.0148 213.664H91.9588ZM116.138 220H124.014V207.504H135.19V200.948H124.014V193.776H137.038V187.22H116.138V220Z" fill="#515151"/>
+<g filter="url(#filter1_d_235_214)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M114.612 12.1972C113.937 11.6559 113.198 11.2073 112.414 10.8596V60.385C112.414 67.1056 112.414 70.4659 113.722 73.0328C114.873 75.2908 116.708 77.1266 118.966 78.277C121.533 79.585 124.894 79.585 131.614 79.585H181.14C180.793 78.8029 180.346 78.0648 179.806 77.3905L114.612 12.1972Z" fill="url(#paint1_linear_235_214)"/>
+</g>
+<defs>
+<filter id="filter0_di_235_214" x="0" y="6" width="190" height="304" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_235_214"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_235_214" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="68"/>
+<feGaussianBlur stdDeviation="48"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_235_214"/>
+</filter>
+<filter id="filter1_d_235_214" x="94.4142" y="0.859619" width="96.7261" height="96.7253" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-4" dy="4"/>
+<feGaussianBlur stdDeviation="7"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.29 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_235_214"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_235_214" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_235_214" x1="95" y1="10" x2="95" y2="242" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F7F7F7"/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<linearGradient id="paint1_linear_235_214" x1="149.5" y1="47.4993" x2="117" y2="79.9993" gradientUnits="userSpaceOnUse">
+<stop stop-color="#DDDDDD"/>
+<stop offset="0.197917" stop-color="#EDEDED"/>
+<stop offset="0.40625" stop-color="#F7F7F7"/>
+<stop offset="0.630208" stop-color="#FBFBFB"/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+</defs>
+</svg>
+`
+
 
 const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>item|folder)\/(?<id>[\w]{13})/,);
 const EAGLE_FOLDER_BG_LINK = new RegExp(/url\([\\]{0,1}"file:\/\/\/(?<url>.*)[\\]{0,1}"\)/,);
@@ -386,9 +436,20 @@ export class EagleEmbed implements EmbedSource {
 
     if(settings.FolderShowInnerLink){
       var ele1= document.createElement("div");
-      ele1.setText(data.name+" | "+data.tags);
+      var tagStr="";
+      if(data.tags.length==0){
+        tagStr="";
+      }else{
+          data.tags.forEach(el => {
+          // console.log("|#|"+el);
+          tagStr=+" "+el;
+        });
+        tagStr="|"+tagStr;
+      }
+      // console.log(tagStr);
+      ele1.setText(data.name+tagStr);
       ele1.setAttribute("style",this.folderTitieStyle);
-      ele.append(ele1);
+      ele.append(ele1); 
     }
 
 
@@ -548,7 +609,14 @@ export class EagleEmbed implements EmbedSource {
           case ItemType.Others:
             if(!fs.existsSync(filePath)){
               var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              // this.ele.appendChild(fileSvg);
+              var ele2= document.createElement("div");
+              ele2.innerHTML = fileSvg;//.trim();
+              bg1.innerHTML=fileSvg;
               this.ele.appendChild(bg1);
+              this.ele.appendChild(ele2);
+              this.ele.innerHTML=fileSvg;
+              console.log(fileSvg);
             }else{
               var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
               this.ele.appendChild(bg1);
@@ -557,7 +625,16 @@ export class EagleEmbed implements EmbedSource {
           default:
             if(!fs.existsSync(filePath)){
               var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              
+              // // this.ele.appendChild(fileSvg);
+              // var ele2= document.createElement("div");
+              // ele2.innerHTML = fileSvg;//.trim();
+              // bg1.innerHTML=fileSvg;
               this.ele.appendChild(bg1);
+              // this.ele.appendChild(ele2);
+              // this.ele.innerHTML=fileSvg;
+              // console.log(fileSvg);
+
             }else{
               var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
               this.ele.appendChild(bg1);
@@ -570,7 +647,18 @@ export class EagleEmbed implements EmbedSource {
 
     // 显示名字
     if(settings.ItemShowLink){
-      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt+"|"+data.data.tags,link,""));
+      var tagStr="";
+      if(data.data.tags.length==0){
+        tagStr="";
+      }else{
+          data.data.tags.forEach(el => {
+          // console.log("|#|"+el);
+          tagStr=+" "+el;
+        });
+        tagStr="|"+tagStr;
+      }
+      // console.log(tagStr);
+      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt+tagStr,""));
     }
     wrap.append(this.ele);
 
