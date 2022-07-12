@@ -612,11 +612,11 @@ export class EagleEmbed implements EmbedSource {
               // this.ele.appendChild(fileSvg);
               var ele2= document.createElement("div");
               ele2.innerHTML = fileSvg;//.trim();
-              bg1.innerHTML=fileSvg;
+              // bg1.innerHTML=fileSvg;
               this.ele.appendChild(bg1);
               this.ele.appendChild(ele2);
-              this.ele.innerHTML=fileSvg;
-              console.log(fileSvg);
+              // this.ele.innerHTML=fileSvg;
+              // console.log(fileSvg);
             }else{
               var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
               this.ele.appendChild(bg1);
