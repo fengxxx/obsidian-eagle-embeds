@@ -12,75 +12,60 @@ const fs = require("fs");
 //   /eagle:\/\/item\/(?<id>.{13})/,
 // );
 
-var fileSvg=`<svg width="251" height="279" viewBox="0 0 251 279" fill="none" xmlns="http://www.w3.org/2000/svg">
+var fileSvg=`<svg width="78" height="98" viewBox="0 0 78 98" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="FileIcon">
 <g id="Page" filter="url(#filter0_di_264_213)">
-<path d="M148.429 21.9289C146.554 20.0536 144.01 19 141.358 19H60.2C53.4794 19 50.1191 19 47.5521 20.3079C45.2942 21.4584 43.4584 23.2942 42.3079 25.5521C41 28.1191 41 31.4794 41 38.2V231.8C41 238.521 41 241.881 42.3079 244.448C43.4584 246.706 45.2942 248.542 47.5521 249.692C50.1191 251 53.4794 251 60.2 251H195.8C202.521 251 205.881 251 208.448 249.692C210.706 248.542 212.542 246.706 213.692 244.448C215 241.881 215 238.521 215 231.8V92.6414C215 89.9892 213.946 87.4457 212.071 85.5703L148.429 21.9289Z" fill="url(#paint0_linear_264_213)"/>
+<path d="M47.5869 5.21211C46.8846 4.50979 45.932 4.11523 44.9388 4.11523H14.545C12.0281 4.11523 10.7697 4.11523 9.80836 4.60505C8.96276 5.03591 8.27526 5.72341 7.8444 6.56901C7.35458 7.53034 7.35458 8.78878 7.35458 11.3057V83.8093C7.35458 86.3261 7.35458 87.5846 7.8444 88.5459C8.27526 89.3915 8.96276 90.079 9.80836 90.5099C10.7697 90.9997 12.0281 90.9997 14.545 90.9997H65.3275C67.8444 90.9997 69.1028 90.9997 70.0641 90.5099C70.9098 90.079 71.5973 89.3915 72.0281 88.5459C72.5179 87.5846 72.5179 86.3261 72.5179 83.8093V31.6941C72.5179 30.7009 72.1234 29.7483 71.421 29.046L47.5869 5.21211Z" fill="url(#paint0_linear_264_213)"/>
 </g>
 <g id="BLEND" filter="url(#filter1_d_264_213)">
-<text fill="black" fill-opacity="0.51" shape-rendering="crispEdges" xml:space="preserve" style="white-space: pre" font-family="Noto Sans SC" font-size="44" font-weight="bold" letter-spacing="0em"><tspan class="FileExt" x="54.0879" y="226.184">BLEND</tspan></text>
+<text fill="black" fill-opacity="0.51" shape-rendering="crispEdges" xml:space="preserve" style="white-space: pre" font-family="Noto Sans SC" font-size="16.4781" font-weight="bold" letter-spacing="0em"><tspan x="11.7301" y="65.1844">BLEND</tspan></text>
 </g>
-<g id="iconList" filter="url(#filter2_d_264_213)">
-<path id="Vector" d="M111.087 124.226C111.489 117.06 115.003 110.748 120.304 106.273C125.503 101.878 132.5 99.1919 140.135 99.1919C147.762 99.1919 154.759 101.878 159.961 106.273C165.258 110.748 168.773 117.06 169.179 124.218C169.581 131.58 166.617 138.419 161.419 143.488C156.118 148.645 148.577 151.88 140.135 151.88C131.692 151.88 124.137 148.645 118.839 143.488C113.637 138.418 110.681 131.579 111.087 124.226V124.226Z" fill="white"/>
-<path id="Vector_2" d="M125.234 124.864C125.44 121.188 127.243 117.949 129.963 115.653C132.631 113.398 136.221 112.02 140.138 112.02C144.052 112.02 147.642 113.398 150.312 115.653C153.03 117.949 154.833 121.188 155.041 124.861C155.247 128.638 153.727 132.147 151.059 134.748C148.339 137.394 144.471 139.054 140.138 139.054C135.806 139.054 131.93 137.394 129.212 134.748C126.542 132.147 125.026 128.638 125.234 124.864V124.864Z" fill="#265787"/>
-<path id="Vector_3" d="M101.571 132.417C101.597 133.858 102.057 136.66 102.748 138.848C104.2 143.479 106.662 147.764 110.088 151.539C113.605 155.42 117.934 158.538 122.935 160.751C128.192 163.075 133.887 164.26 139.803 164.25C145.709 164.242 151.405 163.034 156.662 160.692C161.663 158.457 165.988 155.327 169.499 151.444C172.923 147.652 175.382 143.36 176.837 138.729C177.569 136.389 178.031 134.014 178.217 131.631C178.398 129.281 178.322 126.917 177.989 124.583C177.337 120.004 175.75 115.708 173.307 111.792C171.073 108.194 168.194 105.044 164.769 102.392L164.777 102.386L130.219 75.891C130.188 75.8677 130.162 75.8426 130.129 75.8211C127.862 74.083 124.049 74.0891 121.556 75.8305C119.035 77.5919 118.746 80.5048 120.99 82.3416L120.98 82.3515L135.394 94.055L91.4623 94.1016H91.4035C87.7723 94.1059 84.282 96.4847 83.5906 99.4908C82.8806 102.553 85.3472 105.094 89.1227 105.108L89.1167 105.121L111.384 105.078L71.6492 135.532C71.5986 135.57 71.5438 135.608 71.4971 135.645C67.7488 138.511 66.5371 143.277 68.8978 146.293C71.294 149.36 76.3888 149.365 80.176 146.31L101.862 128.589C101.862 128.589 101.546 130.981 101.571 132.417ZM157.296 140.428C152.828 144.974 146.572 147.551 139.804 147.565C133.025 147.576 126.769 145.022 122.301 140.485C120.118 138.273 118.514 135.729 117.524 133.019C116.552 130.352 116.177 127.504 116.428 124.676C116.664 121.888 117.495 119.229 118.822 116.823C120.125 114.458 121.92 112.32 124.137 110.512C128.48 106.978 134.01 105.065 139.793 105.057C145.583 105.049 151.108 106.945 155.456 110.468C157.669 112.267 159.462 114.397 160.765 116.759C162.109 119.178 162.929 121.852 163.169 124.608C163.416 127.434 163.04 130.279 162.069 132.944C161.077 135.663 159.479 138.207 157.296 140.428V140.428Z" fill="#EA7600"/>
-</g>
-<g id="PageCorn" filter="url(#filter3_d_264_213)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M147.612 21.1969C146.937 20.6556 146.198 20.207 145.414 19.8594V69.3847C145.414 76.1053 145.414 79.4657 146.722 82.0326C147.873 84.2906 149.708 86.1263 151.966 87.2768C154.533 88.5847 157.894 88.5847 164.614 88.5847H214.14C213.793 87.8027 213.346 87.0645 212.806 86.3902L147.612 21.1969Z" fill="url(#paint1_linear_264_213)"/>
+<g id="PageCorn" filter="url(#filter2_d_264_213)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M47.2802 4.93732C47.0276 4.73491 46.751 4.56714 46.4579 4.43708V22.9846C46.4579 25.5015 46.4579 26.7599 46.9477 27.7212C47.3786 28.5669 48.0661 29.2544 48.9117 29.6852C49.873 30.175 51.1315 30.175 53.6484 30.175H72.196C72.0662 29.8824 71.8987 29.6062 71.6968 29.3539L47.2802 4.93732Z" fill="url(#paint1_linear_264_213)"/>
 </g>
 </g>
 <defs>
-<filter id="filter0_di_264_213" x="33" y="15" width="190" height="286" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_di_264_213" x="4.35857" y="2.61723" width="71.1554" height="107.107" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="4"/>
+<feOffset dy="1.49801"/>
+<feGaussianBlur stdDeviation="1.49801"/>
 <feComposite in2="hardAlpha" operator="out"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="139"/>
-<feGaussianBlur stdDeviation="25"/>
+<feOffset dy="52.0558"/>
+<feGaussianBlur stdDeviation="9.36255"/>
 <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0.554861 0 0 0 0 0.625458 0 0 0 0 0.708333 0 0 0 0.05 0"/>
 <feBlend mode="normal" in2="shape" result="effect2_innerShadow_264_213"/>
 </filter>
-<filter id="filter1_d_264_213" x="54.0919" y="189.396" width="148.45" height="40.604" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter1_d_264_213" x="11.7316" y="51.2915" width="55.5948" height="15.2065" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset/>
-<feGaussianBlur stdDeviation="2"/>
+<feGaussianBlur stdDeviation="0.749004"/>
 <feComposite in2="hardAlpha" operator="out"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.28 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
 </filter>
-<filter id="filter2_d_264_213" x="60" y="57" width="126" height="126" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter2_d_264_213" x="39.7169" y="0.691992" width="36.2242" height="36.2238" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.00534719 0 0 0 0 0.298054 0 0 0 0 0.641667 0 0 0 0.45 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
-</filter>
-<filter id="filter3_d_264_213" x="127.414" y="9.85938" width="96.7261" height="96.7256" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="-4" dy="4"/>
-<feGaussianBlur stdDeviation="7"/>
+<feOffset dx="-1.49801" dy="1.49801"/>
+<feGaussianBlur stdDeviation="2.62151"/>
 <feComposite in2="hardAlpha" operator="out"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.29 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
 </filter>
-<linearGradient id="paint0_linear_264_213" x1="128" y1="19" x2="128" y2="251" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint0_linear_264_213" x1="39.9363" y1="4.11523" x2="39.9363" y2="90.9997" gradientUnits="userSpaceOnUse">
 <stop stop-color="#F7F7F7"/>
 <stop offset="1" stop-color="white"/>
 </linearGradient>
-<linearGradient id="paint1_linear_264_213" x1="182.5" y1="56.499" x2="150" y2="88.999" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint1_linear_264_213" x1="60.3466" y1="18.1586" x2="48.1753" y2="30.3299" gradientUnits="userSpaceOnUse">
 <stop stop-color="#DDDDDD"/>
 <stop offset="0.197917" stop-color="#EDEDED"/>
 <stop offset="0.40625" stop-color="#F7F7F7"/>
@@ -93,10 +78,10 @@ var fileSvg=`<svg width="251" height="279" viewBox="0 0 251 279" fill="none" xml
 `
 
 
+
+
 const EAGLE_LINK = new RegExp(/eagle:\/\/(?<type>item|folder)\/(?<id>[\w]{13})/,);
 const EAGLE_FOLDER_BG_LINK = new RegExp(/url\([\\]{0,1}"file:\/\/\/(?<url>.*)[\\]{0,1}"\)/,);
-
-
 
 var imgExts=["PNG","JPG","JPEG","WEBP","GIF","BMP","SVG","TIFF","TGA"];
 var videosExt=["MP4","MOV","WEBM"];
@@ -113,8 +98,6 @@ enum ItemType {
 
 
 
-
-
 export class EagleEmbed implements EmbedSource {
   name = "Eagle";
   enabledKey: EnableEmbedKey = "replaceEagleLinks";
@@ -127,8 +110,6 @@ export class EagleEmbed implements EmbedSource {
   isGetFolderList=false;
   folderList:object[]=new Array();;
 
-
-  
 
    getPluginPath(app:App): string {
     let adapter = app.vault.adapter;
@@ -644,10 +625,19 @@ export class EagleEmbed implements EmbedSource {
               var ele2= document.createElement("div");
               ele2.innerHTML = fileSvg;//.trim();
 
-              var text= ele2.getElementsByClassName("FileExt");
-              if(text){
-                console.log(text);
-                text[0].textContent=this.imgExt;
+              
+
+              // var text= ele2.getElementsByClassName("FileExt");
+              var text= ele2.getElementsByTagName("tspan");
+              
+              if(text.length>0){
+                var tex=text[0];
+                console.log(tex);
+                tex.setText(this.imgExt.toUpperCase());
+                tex.setAttribute("text-anchor", "middle");
+                tex.setAttribute("x", "50%");
+
+                // tex.setAttribute("y", "50%");
               }
               // bg1.innerHTML=fileSvg;
               // this.ele.appendChild(bg1);
@@ -695,7 +685,7 @@ export class EagleEmbed implements EmbedSource {
         tagStr="|"+tagStr;
       }
       // console.log(tagStr);
-      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt+tagStr,""));
+      this.ele.appendChild(this.CreateTiteBar(this.imgName+"."+this.imgExt+tagStr,link,""));
     }
     wrap.append(this.ele);
 
