@@ -12,78 +12,18 @@ const fs = require("fs");
 //   /eagle:\/\/item\/(?<id>.{13})/,
 // );
 
-var fileSvg=`<svg width="78" height="98" viewBox="0 0 78 98" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="FileIcon">
-<g id="Page" filter="url(#filter0_di_264_213)">
-<path d="M47.5869 5.21211C46.8846 4.50979 45.932 4.11523 44.9388 4.11523H14.545C12.0281 4.11523 10.7697 4.11523 9.80836 4.60505C8.96276 5.03591 8.27526 5.72341 7.8444 6.56901C7.35458 7.53034 7.35458 8.78878 7.35458 11.3057V83.8093C7.35458 86.3261 7.35458 87.5846 7.8444 88.5459C8.27526 89.3915 8.96276 90.079 9.80836 90.5099C10.7697 90.9997 12.0281 90.9997 14.545 90.9997H65.3275C67.8444 90.9997 69.1028 90.9997 70.0641 90.5099C70.9098 90.079 71.5973 89.3915 72.0281 88.5459C72.5179 87.5846 72.5179 86.3261 72.5179 83.8093V31.6941C72.5179 30.7009 72.1234 29.7483 71.421 29.046L47.5869 5.21211Z" fill="url(#paint0_linear_264_213)"/>
-</g>
-<g id="BLEND" filter="url(#filter1_d_264_213)">
-<text fill="black" fill-opacity="0.51" shape-rendering="crispEdges" xml:space="preserve" style="white-space: pre" font-family="Noto Sans SC" font-size="16.4781" font-weight="bold" letter-spacing="0em"><tspan x="11.7301" y="65.1844">BLEND</tspan></text>
-</g>
-<g id="PageCorn" filter="url(#filter2_d_264_213)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M47.2802 4.93732C47.0276 4.73491 46.751 4.56714 46.4579 4.43708V22.9846C46.4579 25.5015 46.4579 26.7599 46.9477 27.7212C47.3786 28.5669 48.0661 29.2544 48.9117 29.6852C49.873 30.175 51.1315 30.175 53.6484 30.175H72.196C72.0662 29.8824 71.8987 29.6062 71.6968 29.3539L47.2802 4.93732Z" fill="url(#paint1_linear_264_213)"/>
-</g>
-</g>
-<defs>
-<filter id="filter0_di_264_213" x="4.35857" y="2.61723" width="71.1554" height="107.107" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="1.49801"/>
-<feGaussianBlur stdDeviation="1.49801"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="52.0558"/>
-<feGaussianBlur stdDeviation="9.36255"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.554861 0 0 0 0 0.625458 0 0 0 0 0.708333 0 0 0 0.05 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_264_213"/>
-</filter>
-<filter id="filter1_d_264_213" x="11.7316" y="51.2915" width="55.5948" height="15.2065" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="0.749004"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.28 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
-</filter>
-<filter id="filter2_d_264_213" x="39.7169" y="0.691992" width="36.2242" height="36.2238" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="-1.49801" dy="1.49801"/>
-<feGaussianBlur stdDeviation="2.62151"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.29 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_264_213"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_264_213" result="shape"/>
-</filter>
-<linearGradient id="paint0_linear_264_213" x1="39.9363" y1="4.11523" x2="39.9363" y2="90.9997" gradientUnits="userSpaceOnUse">
-<stop stop-color="#F7F7F7"/>
-<stop offset="1" stop-color="white"/>
-</linearGradient>
-<linearGradient id="paint1_linear_264_213" x1="60.3466" y1="18.1586" x2="48.1753" y2="30.3299" gradientUnits="userSpaceOnUse">
-<stop stop-color="#DDDDDD"/>
-<stop offset="0.197917" stop-color="#EDEDED"/>
-<stop offset="0.40625" stop-color="#F7F7F7"/>
-<stop offset="0.630208" stop-color="#FBFBFB"/>
-<stop offset="1" stop-color="white"/>
-</linearGradient>
-</defs>
+
+var iconFile=`<svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.74 6.33018L10.3 0.33018C10.2065 0.226587 10.0924 0.143709 9.96492 0.0868754C9.83747 0.0300414 9.69954 0.000509805 9.56 0.000179976H2.56C2.22775 -0.00378312 1.89797 0.05774 1.5895 0.181236C1.28103 0.304732 0.999904 0.487783 0.762182 0.719934C0.524459 0.952085 0.334794 1.22879 0.204018 1.53425C0.0732421 1.8397 0.00391638 2.16793 0 2.50018V17.5002C0.00391638 17.8324 0.0732421 18.1607 0.204018 18.4661C0.334794 18.7716 0.524459 19.0483 0.762182 19.2804C0.999904 19.5126 1.28103 19.6956 1.5895 19.8191C1.89797 19.9426 2.22775 20.0041 2.56 20.0002H13.44C13.7723 20.0041 14.102 19.9426 14.4105 19.8191C14.719 19.6956 15.0001 19.5126 15.2378 19.2804C15.4755 19.0483 15.6652 18.7716 15.796 18.4661C15.9268 18.1607 15.9961 17.8324 16 17.5002V7.00018C15.9994 6.75234 15.9067 6.51358 15.74 6.33018V6.33018ZM13.65 7.00018H9.71C9.50384 6.97988 9.31391 6.87942 9.18111 6.72043C9.04831 6.56144 8.98327 6.35666 9 6.15018V2.00018H9.11L13.65 7.00018ZM13.44 18.0002H2.56C2.49037 18.0042 2.42063 17.9945 2.35477 17.9715C2.28892 17.9486 2.22824 17.9129 2.17621 17.8664C2.12419 17.82 2.08184 17.7637 2.0516 17.7009C2.02137 17.638 2.00383 17.5698 2 17.5002V2.50018C2.00383 2.43054 2.02137 2.36234 2.0516 2.2995C2.08184 2.23665 2.12419 2.18039 2.17621 2.13394C2.22824 2.08749 2.28892 2.05176 2.35477 2.02881C2.42063 2.00586 2.49037 1.99613 2.56 2.00018H7V6.15018C6.98386 6.8868 7.25975 7.59991 7.76747 8.13385C8.27518 8.6678 8.9735 8.97923 9.71 9.00018H14V17.5002C13.9962 17.5698 13.9786 17.638 13.9484 17.7009C13.9182 17.7637 13.8758 17.82 13.8238 17.8664C13.7718 17.9129 13.7111 17.9486 13.6452 17.9715C13.5794 17.9945 13.5096 18.0042 13.44 18.0002V18.0002Z" fill="white" fill-opacity="0.7"/>
 </svg>
 
 `
 
-var iconFile=`<svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.74 6.33018L10.3 0.33018C10.2065 0.226587 10.0924 0.143709 9.96492 0.0868754C9.83747 0.0300414 9.69954 0.000509805 9.56 0.000179976H2.56C2.22775 -0.00378312 1.89797 0.05774 1.5895 0.181236C1.28103 0.304732 0.999904 0.487783 0.762182 0.719934C0.524459 0.952085 0.334794 1.22879 0.204018 1.53425C0.0732421 1.8397 0.00391638 2.16793 0 2.50018V17.5002C0.00391638 17.8324 0.0732421 18.1607 0.204018 18.4661C0.334794 18.7716 0.524459 19.0483 0.762182 19.2804C0.999904 19.5126 1.28103 19.6956 1.5895 19.8191C1.89797 19.9426 2.22775 20.0041 2.56 20.0002H13.44C13.7723 20.0041 14.102 19.9426 14.4105 19.8191C14.719 19.6956 15.0001 19.5126 15.2378 19.2804C15.4755 19.0483 15.6652 18.7716 15.796 18.4661C15.9268 18.1607 15.9961 17.8324 16 17.5002V7.00018C15.9994 6.75234 15.9067 6.51358 15.74 6.33018V6.33018ZM13.65 7.00018H9.71C9.50384 6.97988 9.31391 6.87942 9.18111 6.72043C9.04831 6.56144 8.98327 6.35666 9 6.15018V2.00018H9.11L13.65 7.00018ZM13.44 18.0002H2.56C2.49037 18.0042 2.42063 17.9945 2.35477 17.9715C2.28892 17.9486 2.22824 17.9129 2.17621 17.8664C2.12419 17.82 2.08184 17.7637 2.0516 17.7009C2.02137 17.638 2.00383 17.5698 2 17.5002V2.50018C2.00383 2.43054 2.02137 2.36234 2.0516 2.2995C2.08184 2.23665 2.12419 2.18039 2.17621 2.13394C2.22824 2.08749 2.28892 2.05176 2.35477 2.02881C2.42063 2.00586 2.49037 1.99613 2.56 2.00018H7V6.15018C6.98386 6.8868 7.25975 7.59991 7.76747 8.13385C8.27518 8.6678 8.9735 8.97923 9.71 9.00018H14V17.5002C13.9962 17.5698 13.9786 17.638 13.9484 17.7009C13.9182 17.7637 13.8758 17.82 13.8238 17.8664C13.7718 17.9129 13.7111 17.9486 13.6452 17.9715C13.5794 17.9945 13.5096 18.0042 13.44 18.0002V18.0002Z" fill="black"/>
-</svg>`
-
 var iconFolder=`<svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M18 2H9.414L7.707 0.293001C7.61426 0.200002 7.50406 0.126244 7.38273 0.0759616C7.2614 0.0256795 7.13134 -0.000135141 7 5.32017e-07H2C0.897 5.32017e-07 0 0.897 0 2V16C0 17.103 0.897 18 2 18H18C19.103 18 20 17.103 20 16V4C20 2.897 19.103 2 18 2ZM2 16V4H18L18.002 16H2Z" fill="black"/>
-</svg>`
+<path d="M18 2H9.414L7.707 0.293001C7.61426 0.200002 7.50406 0.126244 7.38273 0.0759616C7.2614 0.0256795 7.13134 -0.000135141 7 5.32017e-07H2C0.897 5.32017e-07 0 0.897 0 2V16C0 17.103 0.897 18 2 18H18C19.103 18 20 17.103 20 16V4C20 2.897 19.103 2 18 2ZM2 16V4H18L18.002 16H2Z" fill="white" fill-opacity="0.7"/>
+</svg>
+
+`
 
 
 
@@ -548,17 +488,25 @@ export class EagleEmbed implements EmbedSource {
 
     var ele1= document.createElement("div");
     ele1.setAttribute("class","file-embed-title");
-    ele1.setText(name);
-    var eleSpan= document.createElement("span");
-    eleSpan.setAttribute("class","file-embed-icon");
 
+    var eleSpan= document.createElement("span");
+    eleSpan.setAttribute("style","padding: 10px;");
     var icon= document.createElement("svg");
-    icon.innerHTML=iconFolder;
-    eleSpan.appendChild(icon);
+    icon.innerHTML=iconFile;
+
+
+    eleSpan.setAttribute("class","file-embed-icon");
+    eleSpan.append(icon)
+
+    var text = document.createTextNode(name);
 
     ele1.appendChild(eleSpan);
+    ele1.appendChild(text);
+
+    ele1.insertBefore(ele1.firstChild,text);
 
     ele.appendChild(ele1);
+
     eleMain.appendChild(ele);
 
     return eleMain;

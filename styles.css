@@ -225,6 +225,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color:rgb(205, 211, 218);
 
 }
 
