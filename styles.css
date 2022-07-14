@@ -205,6 +205,23 @@ lite-youtube.lyt-activated > .lty-playbtn {
 }
 
 
+
+.EagleFolder {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 5px;
+  padding: 4px 20px;
+  cursor: pointer;
+  
+  /* margin: 0 10px; */
+  /* width: auto;
+  height: auto; */
+}
+.EagleFolder:hover {
+  background-color: var(--background-primary-alt);
+  border-color: var(--interactive-accent);
+
+}
+
 .EagleFile {
   border: 1px solid var(--background-modifier-border);
   border-radius: 5px;

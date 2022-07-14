@@ -469,6 +469,60 @@ export class EagleEmbed implements EmbedSource {
   }
 
 
+  CreateFolderEmbedEle(name:string,ext:string,imgurl:string,link:string){
+    // var imgTag=this.CreateImgTag(ext);
+    var eleMain= document.createElement("a");
+    // eleMain.setAttribute("style","text-decoration:none");
+    // eleMain.setAttribute("href",link);
+    // eleMain.appendChild(imgTag);
+    // console.log(imgTag);
+    // console.log(eleMain);
+    // var bg= document.createElement("img");
+    var imgSrc="app://local/"+imgurl;
+    imgSrc= imgSrc.replace("\\", "/");
+    imgSrc=encodeURI(imgSrc);
+    // bg.setAttribute("src",imgSrc);
+    // bg.setAttribute("style","max-width: 100px;display: block;");
+
+
+
+
+    var ele= document.createElement("div");
+    ele.setAttribute("style","background-image:url("+imgSrc+") ;background-repeat: no-repeat;   background-size: auto 100%;");
+ 
+    
+
+    ele.setAttribute("class","EagleFolder is-loaded");
+    ele.setAttribute("tabindex","-1");
+    ele.setAttribute("src",link);
+    ele.setAttribute("aria-label","Open in Eagle");
+    ele.setAttribute("contenteditable","true");
+
+    var ele1= document.createElement("div");
+    ele1.setAttribute("class","file-embed-title");
+
+    var eleSpan= document.createElement("span");
+    eleSpan.setAttribute("style","padding: 10px;");
+    var icon= document.createElement("svg");
+    icon.innerHTML=iconFolder;
+
+
+    eleSpan.setAttribute("class","file-embed-icon");
+    eleSpan.append(icon);
+
+    var text = document.createTextNode(name);
+
+    ele1.appendChild(eleSpan);
+    ele1.appendChild(text);
+
+    ele1.insertBefore(ele1.firstChild,text);
+
+    ele.appendChild(ele1);
+
+    eleMain.appendChild(ele);
+
+    return eleMain;
+  }
 
   CreateFileEmbedEle(name:string,ext:string,link:string){
     var imgTag=this.CreateImgTag(ext);
@@ -596,8 +650,14 @@ export class EagleEmbed implements EmbedSource {
             this.ele.appendChild(bg1);
             break;
           case ItemType.Video:
-            var vel=this.CreateVideoEle(filePath,fileVideoImgPath);
-            this.ele.appendChild(vel);
+            if(!fs.existsSync(fileVideoImgPath)){
+              this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
+              noTitle=true;
+
+            }else{
+              var vel=this.CreateVideoEle(filePath,fileVideoImgPath);
+              this.ele.appendChild(vel);
+            }
             break;
           case ItemType.Audio:
             if(!fs.existsSync(filePath)){
@@ -783,11 +843,15 @@ export class EagleEmbed implements EmbedSource {
       })
       .catch((error) => {
         console.log(error);
-        itemExist=false;
-        var imgTag=this.CreateImgTag("NULL");
-        wrapper.appendChild(imgTag);
-        wrapper.appendChild(this.CreateTipImgEle("链接失效！"));
-        container.appendChild(wrapper);
+        // itemExist=false;
+        // var imgTag=this.CreateImgTag("NULL");
+        // wrapper.appendChild(imgTag);
+        // wrapper.appendChild(this.CreateTipImgEle("链接失效！"));
+        // container.appendChild(wrapper);
+
+        this.ele=this.CreateFileEmbedEle("链接失效！","NULL",link);
+        wrapper.appendChild(this.ele);
+
         return container;
       });
 
@@ -822,16 +886,23 @@ export class EagleEmbed implements EmbedSource {
             if(fd.covers){
               const matches = fd.covers[0].match(EAGLE_FOLDER_BG_LINK);
               const url = decodeURI(matches.groups.url);
-              wrapper.appendChild(this.CreateTipFolderEle(url,link,fd,settings));
+              // wrapper.appendChild(this.CreateTipFolderEle(url,link,fd,settings));
+
+              this.ele=this.CreateFolderEmbedEle(fd.name,"Folder",url,link);
+              wrapper.appendChild(this.ele);
 
               
             }else{
-                wrapper.appendChild(this.CreateTipFolderTipEle("无封面！",link,fd,settings));
+                // wrapper.appendChild(this.CreateTipFolderTipEle("无封面！",link,fd,settings));
+                this.ele=this.CreateFileEmbedEle(fd.name,"Folder",link);
+                wrapper.appendChild(this.ele);
 
+                // noTitle=true;
             }
           }else{
-            wrapper.appendChild(this.CreateTipFolderTipEle("链接失效！",link,fd));
-
+            // wrapper.appendChild(this.CreateTipFolderTipEle("链接失效！",link,fd));
+            this.ele=this.CreateFileEmbedEle("链接失效！","NULL",link);
+            wrapper.appendChild(this.ele);
 
           }
           if(fd){
