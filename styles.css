@@ -196,3 +196,36 @@ lite-youtube.lyt-activated > .lty-playbtn {
   white-space: nowrap;
   width: 1px;
 }
+
+
+.embed-container.Eagle {
+  width: 100%;
+  max-width: 100%;
+  margin: 20px 0;
+}
+
+
+.EagleFile {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 5px;
+  padding: 4px 20px;
+  cursor: pointer;
+  
+  /* margin: 0 10px; */
+  /* width: auto;
+  height: auto; */
+}
+.EagleFile:hover {
+  background-color: var(--background-primary-alt);
+  border-color: var(--interactive-accent);
+
+}
+
+.file-embed-title{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+

@@ -77,6 +77,13 @@ var fileSvg=`<svg width="78" height="98" viewBox="0 0 78 98" fill="none" xmlns="
 
 `
 
+var iconFile=`<svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.74 6.33018L10.3 0.33018C10.2065 0.226587 10.0924 0.143709 9.96492 0.0868754C9.83747 0.0300414 9.69954 0.000509805 9.56 0.000179976H2.56C2.22775 -0.00378312 1.89797 0.05774 1.5895 0.181236C1.28103 0.304732 0.999904 0.487783 0.762182 0.719934C0.524459 0.952085 0.334794 1.22879 0.204018 1.53425C0.0732421 1.8397 0.00391638 2.16793 0 2.50018V17.5002C0.00391638 17.8324 0.0732421 18.1607 0.204018 18.4661C0.334794 18.7716 0.524459 19.0483 0.762182 19.2804C0.999904 19.5126 1.28103 19.6956 1.5895 19.8191C1.89797 19.9426 2.22775 20.0041 2.56 20.0002H13.44C13.7723 20.0041 14.102 19.9426 14.4105 19.8191C14.719 19.6956 15.0001 19.5126 15.2378 19.2804C15.4755 19.0483 15.6652 18.7716 15.796 18.4661C15.9268 18.1607 15.9961 17.8324 16 17.5002V7.00018C15.9994 6.75234 15.9067 6.51358 15.74 6.33018V6.33018ZM13.65 7.00018H9.71C9.50384 6.97988 9.31391 6.87942 9.18111 6.72043C9.04831 6.56144 8.98327 6.35666 9 6.15018V2.00018H9.11L13.65 7.00018ZM13.44 18.0002H2.56C2.49037 18.0042 2.42063 17.9945 2.35477 17.9715C2.28892 17.9486 2.22824 17.9129 2.17621 17.8664C2.12419 17.82 2.08184 17.7637 2.0516 17.7009C2.02137 17.638 2.00383 17.5698 2 17.5002V2.50018C2.00383 2.43054 2.02137 2.36234 2.0516 2.2995C2.08184 2.23665 2.12419 2.18039 2.17621 2.13394C2.22824 2.08749 2.28892 2.05176 2.35477 2.02881C2.42063 2.00586 2.49037 1.99613 2.56 2.00018H7V6.15018C6.98386 6.8868 7.25975 7.59991 7.76747 8.13385C8.27518 8.6678 8.9735 8.97923 9.71 9.00018H14V17.5002C13.9962 17.5698 13.9786 17.638 13.9484 17.7009C13.9182 17.7637 13.8758 17.82 13.8238 17.8664C13.7718 17.9129 13.7111 17.9486 13.6452 17.9715C13.5794 17.9945 13.5096 18.0042 13.44 18.0002V18.0002Z" fill="black"/>
+</svg>`
+
+var iconFolder=`<svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 2H9.414L7.707 0.293001C7.61426 0.200002 7.50406 0.126244 7.38273 0.0759616C7.2614 0.0256795 7.13134 -0.000135141 7 5.32017e-07H2C0.897 5.32017e-07 0 0.897 0 2V16C0 17.103 0.897 18 2 18H18C19.103 18 20 17.103 20 16V4C20 2.897 19.103 2 18 2ZM2 16V4H18L18.002 16H2Z" fill="black"/>
+</svg>`
 
 
 
@@ -523,7 +530,39 @@ export class EagleEmbed implements EmbedSource {
 
 
 
+  CreateFileEmbedEle(name:string,ext:string,link:string){
+    var imgTag=this.CreateImgTag(ext);
+    var eleMain= document.createElement("a");
+    eleMain.setAttribute("style","text-decoration:none");
+    eleMain.setAttribute("href",link);
+    eleMain.appendChild(imgTag);
+    // console.log(imgTag);
+    // console.log(eleMain);
 
+    var ele= document.createElement("div");
+    ele.setAttribute("class","EagleFile is-loaded");
+    ele.setAttribute("tabindex","-1");
+    ele.setAttribute("src",link);
+    ele.setAttribute("aria-label","Open in Eagle");
+    ele.setAttribute("contenteditable","true");
+
+    var ele1= document.createElement("div");
+    ele1.setAttribute("class","file-embed-title");
+    ele1.setText(name);
+    var eleSpan= document.createElement("span");
+    eleSpan.setAttribute("class","file-embed-icon");
+
+    var icon= document.createElement("svg");
+    icon.innerHTML=iconFolder;
+    eleSpan.appendChild(icon);
+
+    ele1.appendChild(eleSpan);
+
+    ele.appendChild(ele1);
+    eleMain.appendChild(ele);
+
+    return eleMain;
+  }
 
 
 
@@ -600,6 +639,9 @@ export class EagleEmbed implements EmbedSource {
     var fileVideoImgPath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extVideoStr;
     var imgFilePath=filePath;
 
+
+
+    var noTitle=false;
     switch (this.itemType) {
         case ItemType.Image:
             var bg1=this.CreateImgEle(imgFilePath);
@@ -619,31 +661,9 @@ export class EagleEmbed implements EmbedSource {
             break;
           case ItemType.Others:
             if(!fs.existsSync(filePath)){
-              this.ele= document.createElement("div");
-              // var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
-              // this.ele.appendChild(fileSvg);
-              var ele2= document.createElement("div");
-              ele2.innerHTML = fileSvg;//.trim();
-
-              
-
-              // var text= ele2.getElementsByClassName("FileExt");
-              var text= ele2.getElementsByTagName("tspan");
-              
-              if(text.length>0){
-                var tex=text[0];
-                console.log(tex);
-                tex.setText(this.imgExt.toUpperCase());
-                tex.setAttribute("text-anchor", "middle");
-                tex.setAttribute("x", "50%");
-
-                // tex.setAttribute("y", "50%");
-              }
-              // bg1.innerHTML=fileSvg;
-              // this.ele.appendChild(bg1);
-              this.ele.appendChild(ele2);
-              // this.ele.innerHTML=fileSvg;
-              // console.log(fileSvg);
+      
+              this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
+              noTitle=true;
             }else{
               var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
               this.ele.appendChild(bg1);
@@ -651,13 +671,14 @@ export class EagleEmbed implements EmbedSource {
               break;
           default:
             if(!fs.existsSync(filePath)){
-              var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
-              
+              // var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
+              noTitle=true;
               // // this.ele.appendChild(fileSvg);
               // var ele2= document.createElement("div");
               // ele2.innerHTML = fileSvg;//.trim();
               // bg1.innerHTML=fileSvg;
-              this.ele.appendChild(bg1);
+              // this.ele.appendChild(bg1);
               // this.ele.appendChild(ele2);
               // this.ele.innerHTML=fileSvg;
               // console.log(fileSvg);
@@ -673,7 +694,7 @@ export class EagleEmbed implements EmbedSource {
 
 
     // 显示名字
-    if(settings.ItemShowLink){
+    if(settings.ItemShowLink&&!noTitle){
       var tagStr="";
       if(data.data.tags.length==0){
         tagStr="";
@@ -758,7 +779,7 @@ export class EagleEmbed implements EmbedSource {
     var  wrapper = document.createElement("div");
     const id = matches.groups.id;
     const linkType = matches.groups.type;
-
+    container.addClass("Eagle");
 
 
     if(linkType=="item"){
