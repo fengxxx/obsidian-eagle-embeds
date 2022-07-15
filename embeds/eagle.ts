@@ -677,7 +677,6 @@ export class EagleEmbed implements EmbedSource {
           }
             break;
           case ItemType.Others:
-            noTitle=true;
 
             if(fs.existsSync(filePath)){
                 var bg1=this.CreateImgEle(imgFilePath);
@@ -685,6 +684,7 @@ export class EagleEmbed implements EmbedSource {
                 break;
             }else{
               this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
+              noTitle=true;
 
               // var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
               // this.ele.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
