@@ -646,6 +646,7 @@ export class EagleEmbed implements EmbedSource {
     var filePath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;
     var fileVideoImgPath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extVideoStr;
     var imgFilePath=filePath;
+    // var FileImgPath=this.rootPath+"/images/"+idn+".info/"+this.imgName+this.extstr;;
 
 
 
@@ -676,13 +677,17 @@ export class EagleEmbed implements EmbedSource {
           }
             break;
           case ItemType.Others:
-            if(!fs.existsSync(filePath)){
-      
-              this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
-              noTitle=true;
+            noTitle=true;
+
+            if(fs.existsSync(filePath)){
+                var bg1=this.CreateImgEle(imgFilePath);
+                this.ele.appendChild(bg1);
+                break;
             }else{
+              this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
+
               // var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
-              this.ele.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
+              // this.ele.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
               // this.ele.appendChild(bg1);
             }
               break;
