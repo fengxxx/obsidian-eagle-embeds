@@ -211,15 +211,24 @@ lite-youtube.lyt-activated > .lty-playbtn {
   border-radius: 5px;
   padding: 4px 20px;
   cursor: pointer;
+
+  background-blend-mode: multiply;
+  background-color: #00000029;
+  /* background-color: #00000059; */
+  /* background-image: url(app://local/D:/WeiyunDick/WeiyunDisk/EagleLibrary/FengxWork.library/images/L06EZ96S2915X.info/%E6%9C%89%E6%95%88%E7%9A%84%E4%BA%BA%E9%9A%9B%E6%BA%9D%E9%80%9A%EF%BC%8C%E5%BE%9E%E8%87%AA%E6%88%91%E6%8F%AD%E9%9C%B2%E8%88%87%E4%BB%96%E4%BA%BA%E5%9B%9E%E9%A5%8B%E9%96%8B%E5%A7%8B%E7%B6%93%E7%90%86%E4%BA%BA.jpg); */
+  background-repeat: no-repeat;
+  background-size:  contain;
+  background-position-x: 100% ;
   
   /* margin: 0 10px; */
   /* width: auto;
   height: auto; */
 }
 .EagleFolder:hover {
-  background-color: var(--background-primary-alt);
+  /* background-color: var(--background-primary-alt); */
   border-color: var(--interactive-accent);
-
+  background-blend-mode: lighten;
+  background-color: #4e4e4e55;
 }
 
 .EagleFile {

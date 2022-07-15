@@ -472,24 +472,29 @@ export class EagleEmbed implements EmbedSource {
   CreateFolderEmbedEle(name:string,ext:string,imgurl:string,link:string){
     // var imgTag=this.CreateImgTag(ext);
     var eleMain= document.createElement("a");
-    // eleMain.setAttribute("style","text-decoration:none");
-    // eleMain.setAttribute("href",link);
+    eleMain.setAttribute("style","text-decoration:none");
+    eleMain.setAttribute("href",link);
     // eleMain.appendChild(imgTag);
     // console.log(imgTag);
     // console.log(eleMain);
     // var bg= document.createElement("img");
-    var imgSrc="app://local/"+imgurl;
-    imgSrc= imgSrc.replace("\\", "/");
-    imgSrc=encodeURI(imgSrc);
-    // bg.setAttribute("src",imgSrc);
-    // bg.setAttribute("style","max-width: 100px;display: block;");
+
+
 
 
 
 
     var ele= document.createElement("div");
-    ele.setAttribute("style","background-image:url("+imgSrc+") ;background-repeat: no-repeat;   background-size: auto 100%;");
- 
+    //;background-repeat: no-repeat;   background-size: auto 100%;");
+    if (imgurl!=""){
+      var imgSrc="app://local/"+imgurl;
+      imgSrc= imgSrc.replace("\\", "/");
+      imgSrc=encodeURI(imgSrc);
+      // bg.setAttribute("src",imgSrc);
+      // bg.setAttribute("style","max-width: 100px;display: block;");
+      ele.setAttribute("style","background-image:url("+imgSrc+")"); 
+
+    }
     
 
     ele.setAttribute("class","EagleFolder is-loaded");
@@ -539,6 +544,7 @@ export class EagleEmbed implements EmbedSource {
     ele.setAttribute("src",link);
     ele.setAttribute("aria-label","Open in Eagle");
     ele.setAttribute("contenteditable","true");
+
 
     var ele1= document.createElement("div");
     ele1.setAttribute("class","file-embed-title");
@@ -661,11 +667,13 @@ export class EagleEmbed implements EmbedSource {
             break;
           case ItemType.Audio:
             if(!fs.existsSync(filePath)){
-              var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              // var bg1=this.CreateTipImgEleStyle("点击预览","width:100%;","",link);
+              this.ele.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
+
             }else{
             var vel=this.CreateAudioEle(filePath,fileVideoImgPath);
-            }
             this.ele.appendChild(vel);
+          }
             break;
           case ItemType.Others:
             if(!fs.existsSync(filePath)){
@@ -673,8 +681,9 @@ export class EagleEmbed implements EmbedSource {
               this.ele=this.CreateFileEmbedEle(this.imgName+"."+this.imgExt,this.imgExt,link);
               noTitle=true;
             }else{
-              var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
-              this.ele.appendChild(bg1);
+              // var bg1=this.CreateImgEleStyle(imgFilePath,"width:100%;",link);
+              this.ele.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
+              // this.ele.appendChild(bg1);
             }
               break;
           default:
@@ -796,18 +805,20 @@ export class EagleEmbed implements EmbedSource {
       var urlItem="http://localhost:41595/api/item/info?id="+id;
       if(!this.eagleRuning){
         this.GetRootPath();
-        console.log("Eagle not runing！")
-        var u = navigator.userAgent;
-        var app = navigator.appVersion;
-        var android= u.indexOf('Android') > -1;
-        var ios= u.indexOf('Android') > -1;
+        // console.log("Eagle not runing！")
+        // var u = navigator.userAgent;
+        // var app = navigator.appVersion;
+        // var android= u.indexOf('Android') > -1;
+        // var ios= u.indexOf('Android') > -1;
 
-        var imgTag=this.CreateImgTag("Null");
-        wrapper.appendChild(imgTag);
-        wrapper.appendChild(this.CreateTipLinkEle("Eagle 未启动！",link));
+        // var imgTag=this.CreateImgTag("Null");
+        // wrapper.appendChild(imgTag);
+        // wrapper.appendChild(this.CreateTipLinkEle("Eagle 未启动！",link));
        
+
+        
         // wrapper.appendChild(this.CreateTipLinkEle(app,link));
-        container.appendChild(wrapper);
+        container.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
         return container;
       }else{
 
@@ -859,8 +870,9 @@ export class EagleEmbed implements EmbedSource {
     }else if(linkType=="folder"){
       if(!this.eagleRuning){
         this.GetRootPath();
-        wrapper.appendChild(this.CreateTipFolderTipLinkEle("Eagle 未启动！","eagle://start"));
-        container.appendChild(wrapper);
+        // wrapper.appendChild(this.CreateTipFolderTipLinkEle("Eagle 未启动！","eagle://start"));
+        // container.appendChild(wrapper);
+        container.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
         
         return container;
       }
@@ -868,8 +880,9 @@ export class EagleEmbed implements EmbedSource {
 
       if (!this.isGetFolderList){
          this.GetFolderList();
-         wrapper.appendChild(this.CreateTipFolderTipLinkEle("Eagle 未启动！",link));
-         container.appendChild(wrapper);
+        //  wrapper.appendChild(this.CreateTipFolderTipLinkEle("Eagle 未启动！",link));
+        //  container.appendChild(wrapper);
+         container.appendChild(this.CreateFileEmbedEle("Eagle 未启动！","NULL","eagle://start"));
          return container;
 
       }else{
@@ -894,7 +907,7 @@ export class EagleEmbed implements EmbedSource {
               
             }else{
                 // wrapper.appendChild(this.CreateTipFolderTipEle("无封面！",link,fd,settings));
-                this.ele=this.CreateFileEmbedEle(fd.name,"Folder",link);
+                this.ele=this.CreateFolderEmbedEle(fd.name,"Folder","",link);
                 wrapper.appendChild(this.ele);
 
                 // noTitle=true;
@@ -907,13 +920,14 @@ export class EagleEmbed implements EmbedSource {
           }
           if(fd){
             if(settings.FolderShowLink){
-              wrapper.appendChild(this.CreateTiteBar(fd.name,link,"margin-left: 2px;"));
+              // wrapper.appendChild(this.CreateTiteBar(fd.name,link,"margin-left: 2px;"));
             }
 
           }
         
         }else{
-          wrapper.appendChild(this.CreateTipFolderTipLinkEle("启动 Eagle",link));
+          // wrapper.appendChild(this.CreateTipFolderTipLinkEle("启动 Eagle",link));
+          container.appendChild(this.CreateFolderEmbedEle("Eagle 未启动！","NULL","","eagle://start"));
 
         }  
       }
